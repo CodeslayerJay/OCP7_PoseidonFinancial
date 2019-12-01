@@ -4,10 +4,10 @@ namespace WebApi.Services
 {
     public interface ICurveService
     {
-        CurveResource Add(CurveResource resource);
+        CurveResource Add(CreateCurvePointResource resource);
         void Delete(int id);
         CurveResource FindById(int id);
         CurveResource[] GetAll();
-        void Update(int id, CurveResource resource);
+        void Update(int id, EditCurvePointResource resource);
     }
 }

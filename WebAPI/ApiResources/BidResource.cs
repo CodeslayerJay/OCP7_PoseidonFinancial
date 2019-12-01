@@ -12,4 +12,19 @@ namespace WebApi.ApiResources
         public string Type { get; set; }
         public double BidQuantity { get; set; }
     }
+
+    public class CreateBidListResource
+    {
+        public string Account { get; set; }
+        public string Type { get; set; }
+        public double BidQuantity { get; set; }
+    }
+
+    public class EditBidListResource
+    {
+        public int BidListId { get; set; }
+        public string Account { get; set; }
+        public string Type { get; set; }
+        public double BidQuantity { get; set; }
+    }
 }

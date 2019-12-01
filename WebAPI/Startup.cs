@@ -19,8 +19,6 @@ using Microsoft.Extensions.Logging;
 using WebApi.AppUtilities;
 using WebApi.Repositories;
 using WebApi.Services;
-using Identity;
-using Microsoft.AspNetCore.Identity;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -39,40 +37,47 @@ namespace Dot.Net.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Services
-            //services.AddMediatR(typeof(Startup).Assembly);
+            // Repositories
             services.AddScoped<IBidListRepository, BidListRepository>();
             services.AddScoped<ICurvePointRepository, CurvePointRepository>();
             services.AddScoped<IRatingRepository, RatingRepository>();
             services.AddScoped<ITradeRepository, TradeRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRuleRepository, RuleRepository>();
 
+            // Services
             services.AddScoped<IBidService, BidService>();
             services.AddScoped<ICurveService, CurveService>();
             services.AddScoped<IRatingService, RatingService>();
             services.AddScoped<ITradeService, TradeService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRuleService, RuleService>();
+
+            // Tools
             services.AddScoped(typeof(IAppLogger<>), typeof(AppLogger<>));
             services.AddAutoMapper(typeof(MappingProfile));
+            //services.AddMediatR(typeof(Startup).Assembly);
 
+
+            // Contexts
             services.AddDbContext<LocalDbContext>(opts =>
                 opts.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=OCP7_PoseidonDb;Trusted_Connection=true; MultipleActiveResultSets=true"));
 
-            services.AddDbContext<IdentityContext>(opts =>
-                opts.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=OCP7_PoseidonDbIdentity;Trusted_Connection=true; MultipleActiveResultSets=true"));
+            //services.AddDbContext<IdentityContext>(opts =>
+            //    opts.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=OCP7_PoseidonDbIdentity;Trusted_Connection=true; MultipleActiveResultSets=true"));
                        
-            services.AddIdentity<IdentityUser, IdentityRole>(opts =>
-            {
-                opts.Password.RequireDigit = true;
-                opts.Password.RequireLowercase = true;
-                opts.Password.RequireUppercase = true;
-                opts.Password.RequireNonAlphanumeric = false;
-                opts.Password.RequiredLength = 8;
-                opts.User.RequireUniqueEmail = true;
-                opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                opts.Lockout.MaxFailedAccessAttempts = 5;
+            //services.AddIdentity<IdentityUser, IdentityRole>(opts =>
+            //{
+            //    opts.Password.RequireDigit = true;
+            //    opts.Password.RequireLowercase = true;
+            //    opts.Password.RequireUppercase = true;
+            //    opts.Password.RequireNonAlphanumeric = false;
+            //    opts.Password.RequiredLength = 8;
+            //    opts.User.RequireUniqueEmail = true;
+            //    opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            //    opts.Lockout.MaxFailedAccessAttempts = 5;
 
-            }).AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders();
+            //}).AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders();
 
             services.AddControllers();
             services.AddAuthorization();

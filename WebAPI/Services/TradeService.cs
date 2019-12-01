@@ -21,7 +21,7 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        public TradeResource Add(TradeResource resource)
+        public TradeResource Add(CreateTradeResource resource)
         {
 
             if (resource == null)
@@ -35,7 +35,7 @@ namespace WebApi.Services
 
         }
 
-        public void Update(int id, TradeResource resource)
+        public void Update(int id, EditTradeResource resource)
         {
             var trade = _tradeRepo.FindById(id);
 

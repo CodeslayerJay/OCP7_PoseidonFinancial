@@ -40,7 +40,7 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]CurveResource curvePoint)
+        public IActionResult Create([FromBody]CreateCurvePointResource curvePoint)
         {
             AppLogger.LogResourceRequest(nameof(Create), "test");
 
@@ -83,7 +83,7 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody]CurveResource curvePoint)
+        public IActionResult Update(int id, [FromBody]EditCurvePointResource curvePoint)
         {
             AppLogger.LogResourceRequest(nameof(Update), "test");
 

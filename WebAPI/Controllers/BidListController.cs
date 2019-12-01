@@ -36,7 +36,7 @@ namespace Dot.Net.WebApi.Controllers
         }
                 
         [HttpPost]
-        public IActionResult Create([FromBody] BidResource resource)
+        public IActionResult Create([FromBody] CreateBidListResource resource)
         {
             AppLogger.LogResourceRequest(nameof(Create), "test");
 
@@ -78,7 +78,7 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] BidResource resource)
+        public IActionResult Update(int id, [FromBody] EditBidListResource resource)
         {
             AppLogger.LogResourceRequest(nameof(Update), "test");
 

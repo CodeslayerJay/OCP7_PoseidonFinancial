@@ -38,7 +38,7 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]TradeResource trade)
+        public IActionResult Create([FromBody]CreateTradeResource trade)
         {
             AppLogger.LogResourceRequest(nameof(Create), "test");
 
@@ -80,7 +80,7 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody]TradeResource trade)
+        public IActionResult Update(int id, [FromBody]EditTradeResource trade)
         {
             AppLogger.LogResourceRequest(nameof(Update), "test");
 

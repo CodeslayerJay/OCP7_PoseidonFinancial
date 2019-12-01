@@ -21,7 +21,7 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        public CurveResource Add(CurveResource resource)
+        public CurveResource Add(CreateCurvePointResource resource)
         {
 
             if (resource == null)
@@ -35,7 +35,7 @@ namespace WebApi.Services
 
         }
 
-        public void Update(int id, CurveResource resource)
+        public void Update(int id, EditCurvePointResource resource)
         {
             var curve = _curveRepo.FindById(id);
 

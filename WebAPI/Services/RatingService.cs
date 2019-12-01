@@ -21,7 +21,7 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        public RatingResource Add(RatingResource resource)
+        public RatingResource Add(CreateRatingResource resource)
         {
 
             if (resource == null)
@@ -35,7 +35,7 @@ namespace WebApi.Services
 
         }
 
-        public void Update(int id, RatingResource resource)
+        public void Update(int id, EditRatingResource resource)
         {
             var rating = _ratingRepo.FindById(id);
 

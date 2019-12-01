@@ -4,10 +4,10 @@ namespace WebApi.Services
 {
     public interface IRatingService
     {
-        RatingResource Add(RatingResource resource);
+        RatingResource Add(CreateRatingResource resource);
         void Delete(int id);
         RatingResource FindById(int id);
         RatingResource[] GetAll();
-        void Update(int id, RatingResource resource);
+        void Update(int id, EditRatingResource resource);
     }
 }

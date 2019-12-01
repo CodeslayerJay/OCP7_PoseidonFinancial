@@ -38,7 +38,7 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]RatingResource rating)
+        public IActionResult Create([FromBody]CreateRatingResource rating)
         {
             AppLogger.LogResourceRequest(nameof(Create), "test");
 
@@ -80,7 +80,7 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody]RatingResource rating)
+        public IActionResult Update(int id, [FromBody]EditRatingResource rating)
         {
             AppLogger.LogResourceRequest(nameof(Update), "test");
 

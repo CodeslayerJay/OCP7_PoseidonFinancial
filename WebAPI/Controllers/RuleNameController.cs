@@ -5,53 +5,131 @@ using System.Threading.Tasks;
 using Dot.Net.WebApi.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
- 
+using WebApi.ApiResources;
+using WebApi.AppUtilities;
+using WebApi.Services;
+
 namespace Dot.Net.WebApi.Controllers
 {
-    [Route("[controller]")]
-    public class RuleNameController : Controller
+    
+    public class RuleNameController : BaseApiController<RuleNameController>
     {
-        // TODO: Inject RuleName service
+        private readonly IRuleService _ruleService;
 
-        [HttpGet("/ruleName/list")]
-        public IActionResult Home()
+        public RuleNameController(IAppLogger<RuleNameController> appLogger, IRuleService ruleService) : base(appLogger)
         {
-            // TODO: find all RuleName, add to model
-            return View("ruleName/list");
+            _ruleService = ruleService;
         }
 
-        [HttpGet("/ruleName/add")]
-        public IActionResult AddRuleName([FromBody]RuleName trade)
+        [HttpGet]
+        public IActionResult GetAll()
         {
-            return View("ruleName/add");
+            AppLogger.LogResourceRequest(nameof(GetAll), "test");
+
+            try
+            {
+                return Ok(_ruleService.GetAll());
+            }
+            catch (Exception ex)
+            {
+                return BadRequestExceptionHandler(ex, nameof(GetAll));
+            }
+
         }
 
-        [HttpGet("/ruleName/add")]
-        public IActionResult Validate([FromBody]RuleName trade)
+        [HttpPost]
+        public IActionResult Create([FromBody]CreateRuleNameResource resource)
         {
-            // TODO: check data valid and save to db, after saving return RuleName list
-            return View("ruleName/add");
+            AppLogger.LogResourceRequest(nameof(Create), "test");
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _ruleService.Add(resource);
+
+                    return CreatedAtAction(nameof(Create), resource);
+                }
+
+                return ValidationProblem();
+            }
+            catch (Exception ex)
+            {
+                return BadRequestExceptionHandler(ex, nameof(Create));
+            }
         }
 
-        [HttpGet("/ruleName/update/{id}")]
-        public IActionResult ShowUpdateForm(int id)
+        [HttpGet("{id}")]
+        public IActionResult GetRule(int id)
         {
-            // TODO: get RuleName by Id and to model then show to the form
-            return View("ruleName/update");
+            AppLogger.LogResourceRequest(nameof(GetRule), "test");
+
+            try
+            {
+                var rulename = _ruleService.FindById(id);
+
+                if (rulename == null)
+                    return BadRequest(AppConstants.ResourceNotFoundById + id);
+
+                return Ok(rulename);
+            }
+            catch (Exception ex)
+            {
+                return BadRequestExceptionHandler(ex, nameof(GetRule));
+            }
         }
 
-        [HttpPost("/ruleName/update/{id}")]
-        public IActionResult updateRuleName(int id, [FromBody] RuleName rating)
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, [FromBody]EditRuleNameResource resource)
         {
-            // TODO: check required fields, if valid call service to update RuleName and return RuleName list
-            return Redirect("/ruleName/list");
+            AppLogger.LogResourceRequest(nameof(Update), "test");
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var rulename = _ruleService.FindById(id);
+
+                    if (rulename == null)
+                        return BadRequest(AppConstants.ResourceNotFoundById + id);
+
+                    _ruleService.Update(id, resource);
+
+
+                    return Ok();
+                }
+
+                return ValidationProblem();
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequestExceptionHandler(ex, nameof(Update));
+            }
         }
 
-        [HttpDelete("/ruleName/{id}")]
-        public IActionResult DeleteRuleName(int id)
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
-            // TODO: Find RuleName by Id and delete the RuleName, return to Rule list
-            return Redirect("/ruleName/list");
+            AppLogger.LogResourceRequest(nameof(Delete), "test");
+
+            try
+            {
+                var checkRating = _ruleService.FindById(id);
+
+                if (checkRating == null)
+                    return BadRequest(AppConstants.ResourceNotFoundById + id);
+
+                _ruleService.Delete(id);
+
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequestExceptionHandler(ex, nameof(Delete));
+            }
         }
     }
 }
