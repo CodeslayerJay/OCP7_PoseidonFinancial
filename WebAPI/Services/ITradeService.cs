@@ -4,7 +4,7 @@ namespace WebApi.Services
 {
     public interface ITradeService
     {
-        TradeResource Add(CreateTradeResource resource);
+        TradeResource Add(EditTradeResource resource);
         void Delete(int id);
         TradeResource FindById(int id);
         TradeResource[] GetAll();

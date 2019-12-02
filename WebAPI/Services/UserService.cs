@@ -25,14 +25,14 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        public UserResource CreateUser(CreateUserResource createUserResource)
+        public UserResource CreateUser(EditUserResource resource)
         {
-            if (createUserResource == null)
+            if (resource == null)
                 throw new ArgumentNullException("createUserResource cannot be null");
 
-            var user = _mapper.Map<User>(createUserResource);
+            var user = _mapper.Map<User>(resource);
 
-            var hashResult = AppSecurity.HashPassword(createUserResource.Password);
+            var hashResult = AppSecurity.HashPassword(resource.Password);
             user.Password = hashResult.HashedPassword;
 
             _userRepo.Add(user);
@@ -42,10 +42,36 @@ namespace WebApi.Services
 
         }
 
+        public void DeleteUser(int id)
+        {
+            var user = _userRepo.FindById(id);
+
+            if(user != null)
+            {
+                _userRepo.Delete(id);
+                _userRepo.SaveChanges();
+            }
+        }
+
         public UserResource FindByUsername(string username)
         {
             return _mapper.Map<UserResource>(_userRepo.FindByUserName(username));
         }
 
+        public UserResource GetUserById(int id)
+        {
+            return _mapper.Map<UserResource>(_userRepo.FindById(id));
+        }
+
+        public void UpdateUser(int id, EditUserResource resource)
+        {
+            var userToUpdate = _userRepo.FindById(id);
+
+            if(userToUpdate != null && resource != null)
+            {
+                _userRepo.Update(id, _mapper.Map(resource, userToUpdate));
+                _userRepo.SaveChanges();
+            }
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        public BidResource Add(CreateBidListResource resource)
+        public BidResource Add(EditBidResource resource)
         {
 
             if (resource == null)
@@ -35,7 +35,7 @@ namespace WebApi.Services
 
         }
 
-        public void Update(int id, EditBidListResource resource)
+        public void Update(int id, EditBidResource resource)
         {
             var bidToUpdate = _bidRepo.FindById(id);
 

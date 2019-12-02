@@ -13,18 +13,12 @@ namespace WebApi.ApiResources
         public double Value { get; set; }
     }
 
-    public class CreateCurvePointResource
+    public class EditCurveResource
     {
         public int CurveId { get; set; }
         public double Term { get; set; }
         public double Value { get; set; }
     }
 
-    public class EditCurvePointResource
-    {
-        public int Id { get; set; }
-        public int CurveId { get; set; }
-        public double Term { get; set; }
-        public double Value { get; set; }
-    }
+    
 }

@@ -20,7 +20,7 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        public RuleNameResource Add(CreateRuleNameResource resource)
+        public RuleNameResource Add(EditRuleNameResource resource)
         {
 
             if (resource == null)

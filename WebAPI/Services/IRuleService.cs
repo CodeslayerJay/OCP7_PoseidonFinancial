@@ -4,7 +4,7 @@ namespace WebApi.Services
 {
     public interface IRuleService
     {
-        RuleNameResource Add(CreateRuleNameResource resource);
+        RuleNameResource Add(EditRuleNameResource resource);
         void Delete(int id);
         RuleNameResource FindById(int id);
         RuleNameResource[] GetAll();

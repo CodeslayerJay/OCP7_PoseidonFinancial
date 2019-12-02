@@ -21,7 +21,7 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        public TradeResource Add(CreateTradeResource resource)
+        public TradeResource Add(EditTradeResource resource)
         {
 
             if (resource == null)

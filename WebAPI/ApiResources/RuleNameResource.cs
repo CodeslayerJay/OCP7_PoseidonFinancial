@@ -16,16 +16,8 @@ namespace WebApi.ApiResources
         public string SqlPart { get; set; }
     }
 
-    public class CreateRuleNameResource
-    {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Template { get; set; }
-    }
-
     public class EditRuleNameResource
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Template { get; set; }

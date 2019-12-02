@@ -38,7 +38,7 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]CreateRuleNameResource resource)
+        public IActionResult Create([FromBody]EditRuleNameResource resource)
         {
             AppLogger.LogResourceRequest(nameof(Create), "test");
 

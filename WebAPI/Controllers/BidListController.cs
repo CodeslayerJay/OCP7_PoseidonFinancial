@@ -34,9 +34,10 @@ namespace Dot.Net.WebApi.Controllers
                 return BadRequestExceptionHandler(ex, nameof(GetAll));
             }
         }
+
                 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateBidListResource resource)
+        public IActionResult Create([FromBody] EditBidResource resource)
         {
             AppLogger.LogResourceRequest(nameof(Create), "test");
 
@@ -78,7 +79,7 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] EditBidListResource resource)
+        public IActionResult Update(int id, [FromBody] EditBidResource resource)
         {
             AppLogger.LogResourceRequest(nameof(Update), "test");
 

@@ -21,7 +21,7 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        public RatingResource Add(CreateRatingResource resource)
+        public RatingResource Add(EditRatingResource resource)
         {
 
             if (resource == null)

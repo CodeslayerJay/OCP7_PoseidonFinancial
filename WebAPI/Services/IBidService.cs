@@ -4,10 +4,10 @@ namespace WebApi.Services
 {
     public interface IBidService
     {
-        BidResource Add(CreateBidListResource resource);
+        BidResource Add(EditBidResource resource);
         void Delete(int id);
         BidResource FindById(int id);
         BidResource[] GetAll();
-        void Update(int id, EditBidListResource resource);
+        void Update(int id, EditBidResource resource);
     }
 }

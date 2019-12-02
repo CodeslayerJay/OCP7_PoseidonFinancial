@@ -38,7 +38,7 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]CreateTradeResource trade)
+        public IActionResult Create([FromBody]EditTradeResource trade)
         {
             AppLogger.LogResourceRequest(nameof(Create), "test");
 

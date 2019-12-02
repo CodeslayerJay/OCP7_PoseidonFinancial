@@ -4,7 +4,11 @@ namespace WebApi.Services
 {
     public interface IUserService
     {
-        UserResource CreateUser(CreateUserResource createUserResource);
+        UserResource CreateUser(EditUserResource resource);
         UserResource FindByUsername(string username);
+
+        UserResource GetUserById(int id);
+        void UpdateUser(int id, EditUserResource resource);
+        void DeleteUser(int id);
     }
 }

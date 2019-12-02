@@ -38,7 +38,7 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]CreateRatingResource rating)
+        public IActionResult Create([FromBody]EditRatingResource rating)
         {
             AppLogger.LogResourceRequest(nameof(Create), "test");
 

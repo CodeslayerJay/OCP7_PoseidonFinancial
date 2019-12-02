@@ -13,18 +13,12 @@ namespace WebApi.ApiResources
         public double BuyQuantity { get; set; }
     }
 
-    public class CreateTradeResource
+    public class EditTradeResource
     {
         public string Account { get; set; }
         public string Type { get; set; }
         public double BuyQuantity { get; set; }
     }
 
-    public class EditTradeResource
-    {
-        public int TradeId { get; set; }
-        public string Account { get; set; }
-        public string Type { get; set; }
-        public double BuyQuantity { get; set; }
-    }
+  
 }
