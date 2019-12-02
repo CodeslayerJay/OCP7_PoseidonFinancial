@@ -2,6 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Dot.Net.WebApi.Domain;
+using WebApi.Data;
 
 namespace Dot.Net.WebApi.Data
 {
@@ -19,19 +20,12 @@ namespace Dot.Net.WebApi.Data
         public DbSet<Trade> Trades { get; set; }
         public DbSet<User> Users { get; set;}
 
-        public DbSet<Log> AppLogs { get; set; }
-        public DbSet<LogType> LogTypes { get; set; }
-
+        public DbSet<AccessToken> AccessTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             // Override the default EF table mapping configuration
-            builder.Entity<BidList>().ToTable("BidList");
-            builder.Entity<CurvePoint>().ToTable("CurvePoint");
-            builder.Entity<Rating>().ToTable("Rating");
-            builder.Entity<Trade>().ToTable("Trade");
-            builder.Entity<RuleName>().ToTable("RuleName");
-            builder.Entity<User>().ToTable("Users");
+            builder.Entity<AccessToken>().HasNoKey(); // User Id is the key as a user has only one token
         }
     }
 }

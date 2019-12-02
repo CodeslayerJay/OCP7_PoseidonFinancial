@@ -49,6 +49,7 @@ namespace WebApi.Services
         public void Delete(int id)
         {
             _tradeRepo.Delete(id);
+            _tradeRepo.SaveChanges();
         }
 
         public TradeResource[] GetAll()

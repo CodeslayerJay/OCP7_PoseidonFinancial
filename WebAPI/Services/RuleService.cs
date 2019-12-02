@@ -48,6 +48,7 @@ namespace WebApi.Services
         public void Delete(int id)
         {
             _ruleRepo.Delete(id);
+            _ruleRepo.SaveChanges();
         }
 
         public RuleNameResource[] GetAll()

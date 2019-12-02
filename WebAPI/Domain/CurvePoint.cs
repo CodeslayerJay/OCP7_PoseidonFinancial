@@ -7,7 +7,7 @@ namespace Dot.Net.WebApi.Domain
 {
     public class CurvePoint
     {
-        
+        [Key]
         public int Id { get; set; }
         public int CurveId { get; set; }
         public DateTime AsOfDate { get; set; } = DateTime.Now;

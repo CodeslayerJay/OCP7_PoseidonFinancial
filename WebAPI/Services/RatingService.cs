@@ -49,6 +49,7 @@ namespace WebApi.Services
         public void Delete(int id)
         {
             _ratingRepo.Delete(id);
+            _ratingRepo.SaveChanges();
         }
 
         public RatingResource[] GetAll()

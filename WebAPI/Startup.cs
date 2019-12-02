@@ -124,7 +124,6 @@ namespace Dot.Net.WebApi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
                 endpoints.MapControllers();
             });
         }

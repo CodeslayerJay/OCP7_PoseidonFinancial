@@ -49,6 +49,7 @@ namespace WebApi.Services
         public void Delete(int id)
         {
             _curveRepo.Delete(id);
+            _curveRepo.SaveChanges();
         }
 
         public CurveResource[] GetAll()
