@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Dot.Net.WebApi.Data;
 using Dot.Net.WebApi.Domain;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApi.ApiResources;
+using WebApi.ModelValidators;
 using WebApi.Repositories;
 
 namespace WebApi.Services

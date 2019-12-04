@@ -11,9 +11,11 @@ namespace Dot.Net.WebApi.Domain
         public int BidListId { get; set; }
         
         [StringLength(20)]
+        [Required]
         public string Account { get; set; }
         
         [StringLength(20)]
+        [Required]
         public string Type { get; set; }
         
         public double BidQuantity { get; set; }

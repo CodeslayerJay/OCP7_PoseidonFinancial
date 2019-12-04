@@ -9,5 +9,6 @@ namespace WebApi.Services
         BidResource FindById(int id);
         BidResource[] GetAll();
         void Update(int id, EditBidResource resource);
+
     }
 }
