@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApi.ApiResources;
-using WebApi.ModelValidators;
 using WebApi.Repositories;
 
 namespace WebApi.Services

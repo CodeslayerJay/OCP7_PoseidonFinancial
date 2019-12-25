@@ -23,6 +23,8 @@ namespace WebApi.ApiResources
         [Required]
         [StringLength(20)]
         public string Type { get; set; }
+
+        [RegularExpression("([0-9]+)", ErrorMessage = "Must be a number 0-9")]
         public double BidQuantity { get; set; }
     }
 

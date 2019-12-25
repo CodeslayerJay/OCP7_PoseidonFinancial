@@ -37,6 +37,7 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
         
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Create([FromBody]EditUserResource resource)
         {

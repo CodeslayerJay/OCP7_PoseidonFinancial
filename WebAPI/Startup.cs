@@ -65,7 +65,7 @@ namespace Dot.Net.WebApi
 
             //services.AddDbContext<IdentityContext>(opts =>
             //    opts.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=OCP7_PoseidonDbIdentity;Trusted_Connection=true; MultipleActiveResultSets=true"));
-                       
+
             //services.AddIdentity<IdentityUser, IdentityRole>(opts =>
             //{
             //    opts.Password.RequireDigit = true;
@@ -78,7 +78,7 @@ namespace Dot.Net.WebApi
             //    opts.Lockout.MaxFailedAccessAttempts = 5;
 
             //}).AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders();
-
+            services.AddMvc();
             services.AddControllers();
             services.AddAuthorization();
             
@@ -94,10 +94,12 @@ namespace Dot.Net.WebApi
                 cfg.TokenValidationParameters = new TokenValidationParameters()
                 {
                     // standard configuration
-                    ValidIssuer = Configuration["Auth:Jwt:Issuer"],
-                    ValidAudience = Configuration["Auth:Jwt:Audience"],
+                    //ValidIssuer = Configuration["Auth:Jwt:Issuer"],
+                    //ValidAudience = Configuration["Auth:Jwt:Audience"],
+                    ValidIssuer = "me",
+                    ValidAudience = "you",
                     IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(Configuration["Auth:Jwt:Key"])),
+                    Encoding.UTF8.GetBytes("rlyaKithdrYVl6Z80ODU350md")),
                     ClockSkew = TimeSpan.Zero,
 
                     // security switches
@@ -117,10 +119,12 @@ namespace Dot.Net.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            
-            app.UseAuthorization();
-            app.UseHttpsRedirection();
+
             app.UseRouting();
+
+            app.UseHttpsRedirection();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

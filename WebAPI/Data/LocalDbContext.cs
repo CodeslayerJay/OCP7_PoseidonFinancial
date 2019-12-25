@@ -20,12 +20,5 @@ namespace Dot.Net.WebApi.Data
         public DbSet<Trade> Trades { get; set; }
         public DbSet<User> Users { get; set;}
 
-        public DbSet<AccessToken> AccessTokens { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            // Override the default EF table mapping configuration
-            builder.Entity<AccessToken>().HasNoKey(); // User Id is the key as a user has only one token
-        }
     }
 }

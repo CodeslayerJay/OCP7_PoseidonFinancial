@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Dot.Net.WebApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public abstract class BaseApiController<TController> : Controller
     {
         public IAppLogger<TController> AppLogger { get; }

@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
-using Dot.Net.WebApi.Data;
 using Dot.Net.WebApi.Domain;
-using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WebApi.ApiResources;
 using WebApi.AppUtilities;
 using WebApi.Repositories;
+
 
 namespace WebApi.Services
 {
@@ -24,6 +20,20 @@ namespace WebApi.Services
             _userRepo = userRepository;
             _mapper = mapper;
         }
+
+        public bool ValidateUser(string username, string password)
+        {
+           if(String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password))
+                return false;
+
+            var user = _userRepo.FindByUserName(username);
+
+            if (user == null)
+                return false;
+
+            return AppSecurity.VerifyPasswords(password, user.Password);
+        }
+
 
         public UserResource CreateUser(EditUserResource resource)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dot.Net.WebApi.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.ApiResources;
 using WebApi.AppUtilities;
@@ -11,6 +12,7 @@ using WebApi.Services;
 
 namespace Dot.Net.WebApi.Controllers
 {
+    
     public class BidListController : BaseApiController<BidListController>
     {
         private readonly IBidService _bidService;

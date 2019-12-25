@@ -1,14 +1,48 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace WebApi.AppUtilities
 {
     public static class AppSecurity
     {
+        public static JsonWebToken GenerateToken()
+        {
+            //Add Claims
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.UniqueName, "data"),
+                new Claim(JwtRegisteredClaimNames.Sub, "data"),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("rlyaKithdrYVl6Z80ODU350md")); //Secret
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken("me",
+                "you",
+                claims,
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: creds);
+
+            var accessToken = new JsonWebToken()
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Expires = 600000,
+                Type = "bearer"
+            };
+
+            return accessToken;
+        }
+
+
         public static HashResult HashPassword(string password, byte[] salt = null)
         {
             if (String.IsNullOrEmpty(password))
@@ -17,10 +51,12 @@ namespace WebApi.AppUtilities
             if (salt == null)
             {
                 salt = new byte[128 / 8];
-                using (var rng = RandomNumberGenerator.Create())
-                {
-                    rng.GetBytes(salt);
-                }
+
+                // Scramble salt
+                //using (var rng = RandomNumberGenerator.Create())
+                //{
+                //    rng.GetBytes(salt);
+                //}
             }
 
 
@@ -34,11 +70,11 @@ namespace WebApi.AppUtilities
             return new HashResult { HashedPassword = hashed, SaltKey = salt };
         }
 
-        //public static bool VerifyPasswords(UserCredential userCreds, string password)
-        //{
-        //    var result = HashPassword(password, userCreds.GetKey());
-        //    return result.HashedPassword == userCreds.Password;
-        //}
+        public static bool VerifyPasswords(string password, string hashedPassword)
+        {
+            var result = HashPassword(password);
+            return result.HashedPassword == hashedPassword;
+        }
 
         public class HashResult
         {
@@ -47,4 +83,13 @@ namespace WebApi.AppUtilities
 
         }
     }
+
+    public class JsonWebToken
+    {
+        public string Token { get; set; }
+        public string Type { get; set; } = "bearer";
+        public int Expires { get; set; }
+        public string RefreshToken { get; set; }
+    }
+
 }
