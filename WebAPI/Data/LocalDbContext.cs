@@ -20,5 +20,12 @@ namespace Dot.Net.WebApi.Data
         public DbSet<Trade> Trades { get; set; }
         public DbSet<User> Users { get; set;}
 
+
+        public DbSet<AccessToken> AccessTokens { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<AccessToken>().ToTable("AccessTokens").HasNoKey();
+        }
     }
 }

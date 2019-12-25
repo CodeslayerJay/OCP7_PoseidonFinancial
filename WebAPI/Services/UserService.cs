@@ -34,6 +34,14 @@ namespace WebApi.Services
             return AppSecurity.VerifyPasswords(password, user.Password);
         }
 
+        public static void StoreAccessToken(JsonWebToken token)
+        {
+            if(token != null)
+            {
+                
+            }
+        }
+
 
         public UserResource CreateUser(EditUserResource resource)
         {
