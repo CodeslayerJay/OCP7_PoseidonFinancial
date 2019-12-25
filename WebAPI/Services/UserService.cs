@@ -41,7 +41,7 @@ namespace WebApi.Services
         {
             if (token != null || userId > 0)
             {
-                var aToken = _tokenRepo.GetAccessToken(token);
+                var aToken = _tokenRepo.GetAccessToken(userId);
 
                 if (aToken != null)
                     _tokenRepo.DeleteToken(aToken);

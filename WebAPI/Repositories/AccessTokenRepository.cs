@@ -27,6 +27,11 @@ namespace WebApi.Repositories
             }
         }
 
+        public AccessToken GetAccessToken(int userId)
+        {
+            return _dbContext.AccessTokens.Where(x => x.UserId == userId).FirstOrDefault();
+        }
+
         public AccessToken GetAccessToken(JsonWebToken token)
         {
             return GetAccessToken(token.Token);
