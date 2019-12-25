@@ -28,10 +28,16 @@ namespace Dotnet.Web.WebApi.Controllers
         {
             if (!ModelState.IsValid) return BadRequest("Token failed to generate");
 
-            if (!resource.RefreshToken && !_userService.ValidateUser(resource.Username, resource.Password))
+            var user = _userService.FindByUsername(resource.Username);
+
+            if (user == null)
+                return Unauthorized();
+
+            if (!resource.RefreshToken && !_userService.ValidateUser(user.UserName, resource.Password))
                 return Unauthorized();
 
             var token = AppSecurity.GenerateToken();
+            _userService.StoreAccessToken(token, user.Id);
 
             return Ok(token);
         }

@@ -25,7 +25,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpGet]
         public IActionResult GetUserByUsername(string username)
         {
-            AppLogger.LogResourceRequest(nameof(GetUserByUsername), "test");
+            AppLogger.LogResourceRequest(nameof(GetUserByUsername), GetUsernameForToken());
             try
             {
                 var result = _userService.FindByUsername(username);
@@ -41,7 +41,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody]EditUserResource resource)
         {
-            AppLogger.LogResourceRequest(nameof(Create), "test");
+            AppLogger.LogResourceRequest(nameof(Create), GetUsernameForToken());
 
             try
             {
@@ -62,7 +62,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpGet("{id}")]
         public IActionResult GetUserById(int id)
         {
-            AppLogger.LogResourceRequest(nameof(GetUserById), "test");
+            AppLogger.LogResourceRequest(nameof(GetUserById), GetUsernameForToken());
 
             try
             {
@@ -82,7 +82,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]EditUserResource resource)
         {
-            AppLogger.LogResourceRequest(nameof(Update), "test");
+            AppLogger.LogResourceRequest(nameof(Update), GetUsernameForToken());
 
             try
             {
@@ -111,7 +111,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            AppLogger.LogResourceRequest(nameof(Delete), "test");
+            AppLogger.LogResourceRequest(nameof(Delete), GetUsernameForToken());
 
             try
             {

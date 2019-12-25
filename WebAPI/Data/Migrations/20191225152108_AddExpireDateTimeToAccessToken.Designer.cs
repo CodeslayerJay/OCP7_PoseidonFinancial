@@ -4,14 +4,16 @@ using Dot.Net.WebApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace WebApi.Data.Migrations
 {
     [DbContext(typeof(LocalDbContext))]
-    partial class LocalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191225152108_AddExpireDateTimeToAccessToken")]
+    partial class AddExpireDateTimeToAccessToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -314,11 +316,6 @@ namespace WebApi.Data.Migrations
 
             modelBuilder.Entity("WebApi.Data.AccessToken", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -330,8 +327,6 @@ namespace WebApi.Data.Migrations
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
-
-                    b.HasKey("Id");
 
                     b.ToTable("AccessTokens");
                 });

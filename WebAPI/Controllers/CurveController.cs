@@ -26,7 +26,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            AppLogger.LogResourceRequest(nameof(GetAll), "test");
+            AppLogger.LogResourceRequest(nameof(GetAll), GetUsernameForToken());
 
             try
             {
@@ -42,7 +42,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody]EditCurveResource curvePoint)
         {
-            AppLogger.LogResourceRequest(nameof(Create), "test");
+            AppLogger.LogResourceRequest(nameof(Create), GetUsernameForToken());
 
             try
             {
@@ -65,7 +65,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpGet("{id}")]
         public IActionResult GetCurve(int id)
         {
-            AppLogger.LogResourceRequest(nameof(GetCurve), "test");
+            AppLogger.LogResourceRequest(nameof(GetCurve), GetUsernameForToken());
 
             try
             {
@@ -85,7 +85,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]EditCurveResource curvePoint)
         {
-            AppLogger.LogResourceRequest(nameof(Update), "test");
+            AppLogger.LogResourceRequest(nameof(Update), GetUsernameForToken());
 
             try
             {
@@ -115,7 +115,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            AppLogger.LogResourceRequest(nameof(Delete), "test");
+            AppLogger.LogResourceRequest(nameof(Delete), GetUsernameForToken());
 
             try
             {

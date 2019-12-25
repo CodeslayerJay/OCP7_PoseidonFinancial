@@ -24,7 +24,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            AppLogger.LogResourceRequest(nameof(GetAll), "test");
+            AppLogger.LogResourceRequest(nameof(GetAll), GetUsernameForToken());
 
             try
             {
@@ -40,7 +40,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody]EditRuleNameResource resource)
         {
-            AppLogger.LogResourceRequest(nameof(Create), "test");
+            AppLogger.LogResourceRequest(nameof(Create), GetUsernameForToken());
 
             try
             {
@@ -62,7 +62,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpGet("{id}")]
         public IActionResult GetRule(int id)
         {
-            AppLogger.LogResourceRequest(nameof(GetRule), "test");
+            AppLogger.LogResourceRequest(nameof(GetRule), GetUsernameForToken());
 
             try
             {
@@ -82,7 +82,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]EditRuleNameResource resource)
         {
-            AppLogger.LogResourceRequest(nameof(Update), "test");
+            AppLogger.LogResourceRequest(nameof(Update), GetUsernameForToken());
 
             try
             {
@@ -112,7 +112,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            AppLogger.LogResourceRequest(nameof(Delete), "test");
+            AppLogger.LogResourceRequest(nameof(Delete), GetUsernameForToken());
 
             try
             {

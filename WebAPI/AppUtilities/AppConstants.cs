@@ -9,5 +9,6 @@ namespace WebApi.AppUtilities
     {
         public const string GenericErrorMsg = "An error occurred. Please try again or contact support.";
         public const string ResourceNotFoundById = "The resource was not found using the id: ";
+        public const int DefaultTokenTimeout = 20;
     }
 }

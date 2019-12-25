@@ -3,6 +3,7 @@ using Dot.Net.WebApi.Domain;
 using System;
 using WebApi.ApiResources;
 using WebApi.AppUtilities;
+using WebApi.Data;
 using WebApi.Repositories;
 
 
@@ -12,12 +13,14 @@ namespace WebApi.Services
     {
 
         private readonly IUserRepository _userRepo;
+        private readonly IAccessTokenRepository _tokenRepo;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, IAccessTokenRepository tokenRepository, IMapper mapper)
         {
 
             _userRepo = userRepository;
+            _tokenRepo = tokenRepository;
             _mapper = mapper;
         }
 
@@ -34,14 +37,34 @@ namespace WebApi.Services
             return AppSecurity.VerifyPasswords(password, user.Password);
         }
 
-        public static void StoreAccessToken(JsonWebToken token)
+        public void StoreAccessToken(JsonWebToken token, int userId)
         {
-            if(token != null)
+            if (token != null || userId > 0)
             {
-                
+                var aToken = _tokenRepo.GetAccessToken(token);
+
+                if (aToken != null)
+                    _tokenRepo.DeleteToken(aToken);
+
+                _tokenRepo.StoreAccessToken(token, userId);
             }
         }
 
+
+        public UserResource GetUserForAccessToken(string token)
+        {
+            var aToken = _tokenRepo.GetAccessToken(token);
+
+            var user = _userRepo.FindById(aToken.UserId);
+
+            return _mapper.Map<UserResource>(user);
+        }
+
+
+        public UserResource GetUserForAccessToken(JsonWebToken token)
+        {
+            return GetUserForAccessToken(token.Token);
+        }
 
         public UserResource CreateUser(EditUserResource resource)
         {

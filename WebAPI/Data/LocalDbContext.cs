@@ -9,9 +9,23 @@ namespace Dot.Net.WebApi.Data
     public class LocalDbContext : DbContext
     {
 
-        public LocalDbContext() { }
         public LocalDbContext(DbContextOptions<LocalDbContext> options) :base(options)
         { }
+
+        private readonly string _connString = "Server=(localdb)\\MSSQLLocalDB;Database=OCP7_PoseidonDb;Trusted_Connection=true; MultipleActiveResultSets=true";
+
+        public LocalDbContext()
+        { }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+
+                optionsBuilder.UseSqlServer(_connString);
+            }
+        }
+
 
         public DbSet<CurvePoint> CurvePoints { get; set; }
         public DbSet<Rating> Ratings { get; set; }
@@ -25,7 +39,9 @@ namespace Dot.Net.WebApi.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<AccessToken>().ToTable("AccessTokens").HasNoKey();
+            builder.Entity<AccessToken>().ToTable("AccessTokens").HasKey(x => x.Id);
+
+            base.OnModelCreating(builder);
         }
     }
 }

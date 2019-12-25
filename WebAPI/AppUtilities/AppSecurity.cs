@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+﻿using Dot.Net.WebApi.Data;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace WebApi.AppUtilities
 {
     public static class AppSecurity
     {
+
         public static JsonWebToken GenerateToken()
         {
             //Add Claims
@@ -25,23 +27,24 @@ namespace WebApi.AppUtilities
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("rlyaKithdrYVl6Z80ODU350md")); //Secret
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddMinutes(AppConstants.DefaultTokenTimeout);
 
             var token = new JwtSecurityToken("me",
                 "you",
                 claims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: expires,
                 signingCredentials: creds);
 
             var accessToken = new JsonWebToken()
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expires = 600000,
+                Expires = AppConstants.DefaultTokenTimeout,
+                ExpiresAt = expires,
                 Type = "bearer"
             };
 
             return accessToken;
         }
-
 
         public static HashResult HashPassword(string password, byte[] salt = null)
         {
@@ -76,12 +79,38 @@ namespace WebApi.AppUtilities
             return result.HashedPassword == hashedPassword;
         }
 
+        public static string GetUsernameForToken(string token)
+        {
+            if (String.IsNullOrEmpty(token))
+                throw new ArgumentNullException();
+
+            using(var context = new LocalDbContext())
+            {
+                var aToken = context.AccessTokens.Where(x => x.Token == token).FirstOrDefault();
+
+                if(aToken != null)
+                {
+                    var user = context.Users.Where(x => x.Id == aToken.UserId).FirstOrDefault();
+
+                    if(user != null)
+                    {
+                        return user.UserName;
+                    }
+                }
+            }
+
+            return null;
+        }
+
         public class HashResult
         {
             public string HashedPassword { get; set; }
             public byte[] SaltKey { get; set; }
 
         }
+
+        
+
     }
 
     public class JsonWebToken
@@ -89,6 +118,7 @@ namespace WebApi.AppUtilities
         public string Token { get; set; }
         public string Type { get; set; } = "bearer";
         public int Expires { get; set; }
+        public DateTime ExpiresAt { get; set; }
         public string RefreshToken { get; set; }
     }
 

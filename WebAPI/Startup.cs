@@ -44,6 +44,7 @@ namespace Dot.Net.WebApi
             services.AddScoped<ITradeRepository, TradeRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRuleRepository, RuleRepository>();
+            services.AddScoped<IAccessTokenRepository, AccessTokenRepository>();
 
             // Services
             services.AddScoped<IBidService, BidService>();

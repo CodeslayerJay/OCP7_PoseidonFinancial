@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApi.AppUtilities;
+using WebApi.Services;
 
 namespace Dot.Net.WebApi.Controllers
 {
@@ -16,15 +17,39 @@ namespace Dot.Net.WebApi.Controllers
     public abstract class BaseApiController<TController> : Controller
     {
         public IAppLogger<TController> AppLogger { get; }
-
+        
         public BaseApiController(IAppLogger<TController> logger)
         {
             AppLogger = logger;
         }
+
         internal BadRequestObjectResult BadRequestExceptionHandler(Exception exception, string caller)
         {
             AppLogger.LogError(exception.Message, caller);
             return BadRequest(new { Errors = exception.Message });
+        }
+
+        internal string GetRequestToken()
+        {
+            if (Request == null)
+                return null;
+
+            string token = Request.Headers["Authorization"];
+
+            if (token == null)
+                return null;
+
+            return token.Replace("Bearer ", "");
+        }
+
+        internal string GetUsernameForToken()
+        {
+            var token = GetRequestToken();
+
+            if (String.IsNullOrEmpty(token))
+                return null;
+
+            return AppSecurity.GetUsernameForToken(token);
         }
     }
 }

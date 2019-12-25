@@ -1,7 +1,6 @@
 ﻿
-using Microsoft.IdentityModel.JsonWebTokens;
-using System.IdentityModel.Tokens.Jwt;
 using WebApi.ApiResources;
+using WebApi.AppUtilities;
 
 namespace WebApi.Services
 {
@@ -15,5 +14,8 @@ namespace WebApi.Services
         void DeleteUser(int id);
 
         bool ValidateUser(string username, string password);
+        void StoreAccessToken(JsonWebToken token, int userId);
+        UserResource GetUserForAccessToken(JsonWebToken token);
+        UserResource GetUserForAccessToken(string token);
     }
 }
