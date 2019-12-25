@@ -36,6 +36,8 @@ namespace Dotnet.Web.WebApi.Controllers
             if (!resource.RefreshToken && !_userService.ValidateUser(user.UserName, resource.Password))
                 return Unauthorized();
 
+            AppLogger.LogResourceRequest(nameof(Validate), user.UserName);
+
             var token = AppSecurity.GenerateToken();
             _userService.StoreAccessToken(token, user.Id);
 

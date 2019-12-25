@@ -25,7 +25,7 @@ namespace Dot.Net.WebApi.Controllers
 
         internal BadRequestObjectResult BadRequestExceptionHandler(Exception exception, string caller)
         {
-            AppLogger.LogError(exception.Message, caller);
+            AppLogger.LogError(caller, exception.Message);
             return BadRequest(new { Errors = exception.Message });
         }
 

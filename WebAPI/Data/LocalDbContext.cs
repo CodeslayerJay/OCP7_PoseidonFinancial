@@ -34,6 +34,7 @@ namespace Dot.Net.WebApi.Data
         public DbSet<Trade> Trades { get; set; }
         public DbSet<User> Users { get; set;}
 
+        public DbSet<AppLog> Logs { get; set; }
 
         public DbSet<AccessToken> AccessTokens { get; set; }
 
