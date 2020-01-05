@@ -24,6 +24,7 @@ namespace Dotnet.Web.WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPost]
+        [Route("Validate")]
         public IActionResult Validate([FromBody]TokenResource resource)
         {
             if (!ModelState.IsValid) return BadRequest("Token failed to generate");

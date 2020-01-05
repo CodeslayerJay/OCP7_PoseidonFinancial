@@ -1,4 +1,5 @@
 ﻿using WebApi.ApiResources;
+using WebApi.ModelValidators;
 
 namespace WebApi.Services
 {
@@ -9,5 +10,6 @@ namespace WebApi.Services
         CurveResource FindById(int id);
         CurveResource[] GetAll();
         void Update(int id, EditCurveResource resource);
+        ValidationResult ValidateResource(EditCurveResource resource);
     }
 }

@@ -16,10 +16,9 @@ namespace WebApi.ApiResources
 
     public class EditCurveResource
     {
-        [Required]
-        public int CurveId { get; set; }
-        public double Term { get; set; }
-        public double Value { get; set; }
+        public string CurveId { get; set; }
+        public string Term { get; set; }
+        public string Value { get; set; }
     }
 
     

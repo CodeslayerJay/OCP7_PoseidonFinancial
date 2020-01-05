@@ -25,21 +25,20 @@ namespace WebApi.AppUtilities
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("rlyaKithdrYVl6Z80ODU350md")); //Secret
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddMinutes(AppConstants.DefaultTokenTimeout);
-
-            var token = new JwtSecurityToken("me",
-                "you",
+            var creds = new SigningCredentials(TokenConfig.GetKey(), SecurityAlgorithms.HmacSha256);
+            
+            var token = new JwtSecurityToken(
+                TokenConfig.ValidIssuer,
+                TokenConfig.ValidAudience,
                 claims,
-                expires: expires,
+                expires: TokenConfig.Expires,
                 signingCredentials: creds);
 
             var accessToken = new JsonWebToken()
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expires = AppConstants.DefaultTokenTimeout,
-                ExpiresAt = expires,
+                Expires = TokenConfig.DefaultTokenTimeout,
+                ExpiresAt = TokenConfig.Expires,
                 Type = "bearer"
             };
 

@@ -1,4 +1,5 @@
 ﻿using WebApi.ApiResources;
+using WebApi.ModelValidators;
 
 namespace WebApi.Services
 {
@@ -9,5 +10,6 @@ namespace WebApi.Services
         RatingResource FindById(int id);
         RatingResource[] GetAll();
         void Update(int id, EditRatingResource resource);
+        ValidationResult ValidateResource(EditRatingResource resource);
     }
 }

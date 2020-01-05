@@ -11,7 +11,7 @@ using WebApi.Services;
 
 namespace Dot.Net.WebApi.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     [Authorize]
     public abstract class BaseApiController<TController> : Controller
@@ -50,6 +50,17 @@ namespace Dot.Net.WebApi.Controllers
                 return null;
 
             return AppSecurity.GetUsernameForToken(token);
+        }
+
+        internal void GetErrorsForModelState(Dictionary<string, string> errors)
+        {
+            if (errors.Any())
+            {
+                foreach(var error in errors)
+                {
+                    ModelState.AddModelError(error.Key, error.Value);
+                }
+            }
         }
     }
 }

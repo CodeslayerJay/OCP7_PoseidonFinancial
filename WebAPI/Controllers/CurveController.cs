@@ -24,9 +24,9 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult Get()
         {
-            AppLogger.LogResourceRequest(nameof(GetAll), GetUsernameForToken());
+            AppLogger.LogResourceRequest(nameof(Get), GetUsernameForToken());
 
             try
             {
@@ -34,7 +34,7 @@ namespace Dot.Net.WebApi.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequestExceptionHandler(ex, nameof(GetAll));
+                return BadRequestExceptionHandler(ex, nameof(Get));
             }
             
         }
@@ -46,6 +46,13 @@ namespace Dot.Net.WebApi.Controllers
 
             try
             {
+                var result = _curveService.ValidateResource(curvePoint);
+
+                if (!result.IsValid)
+                {
+                    GetErrorsForModelState(result.ErrorMessages);
+                }
+
                 if (ModelState.IsValid)
                 {
                     _curveService.Add(curvePoint);
@@ -63,22 +70,22 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetCurve(int id)
+        public IActionResult GetById(int id)
         {
-            AppLogger.LogResourceRequest(nameof(GetCurve), GetUsernameForToken());
+            AppLogger.LogResourceRequest(nameof(GetById), GetUsernameForToken());
 
             try
             {
                 var curve = _curveService.FindById(id);
 
                 if (curve == null)
-                    return BadRequest(AppConstants.ResourceNotFoundById + id);
+                    return BadRequest(AppConfig.ResourceNotFoundById + id);
                 
                 return Ok(curve);
             }
             catch(Exception ex)
             {
-                return BadRequestExceptionHandler(ex, nameof(GetCurve));
+                return BadRequestExceptionHandler(ex, nameof(GetById));
             }
         }
 
@@ -89,12 +96,19 @@ namespace Dot.Net.WebApi.Controllers
 
             try
             {
+                var result = _curveService.ValidateResource(curvePoint);
+
+                if (!result.IsValid)
+                {
+                    GetErrorsForModelState(result.ErrorMessages);
+                }
+
                 if (ModelState.IsValid)
                 {
                     var curve = _curveService.FindById(id);
 
                     if (curve == null)
-                        return BadRequest(AppConstants.ResourceNotFoundById + id);
+                        return BadRequest(AppConfig.ResourceNotFoundById + id);
 
                     _curveService.Update(id, curvePoint);
 
@@ -122,7 +136,7 @@ namespace Dot.Net.WebApi.Controllers
                 var curve = _curveService.FindById(id);
 
                 if (curve == null)
-                    return BadRequest(AppConstants.ResourceNotFoundById + id);
+                    return BadRequest(AppConfig.ResourceNotFoundById + id);
 
                 _curveService.Delete(id);
                 

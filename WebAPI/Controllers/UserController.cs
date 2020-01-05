@@ -22,7 +22,7 @@ namespace Dot.Net.WebApi.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
+        [HttpGet("username/{username}")]
         public IActionResult GetUserByUsername(string username)
         {
             AppLogger.LogResourceRequest(nameof(GetUserByUsername), GetUsernameForToken());
@@ -60,6 +60,7 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [Route("GetById")]
         public IActionResult GetUserById(int id)
         {
             AppLogger.LogResourceRequest(nameof(GetUserById), GetUsernameForToken());

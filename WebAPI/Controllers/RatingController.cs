@@ -22,9 +22,9 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult Get()
         {
-            AppLogger.LogResourceRequest(nameof(GetAll), GetUsernameForToken());
+            AppLogger.LogResourceRequest(nameof(Get), GetUsernameForToken());
 
             try
             {
@@ -32,7 +32,7 @@ namespace Dot.Net.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequestExceptionHandler(ex, nameof(GetAll));
+                return BadRequestExceptionHandler(ex, nameof(Get));
             }
 
         }
@@ -44,6 +44,13 @@ namespace Dot.Net.WebApi.Controllers
 
             try
             {
+                var result = _ratingService.ValidateResource(rating);
+
+                if (!result.IsValid)
+                {
+                    GetErrorsForModelState(result.ErrorMessages);
+                }
+
                 if (ModelState.IsValid)
                 {
                     _ratingService.Add(rating);
@@ -60,22 +67,22 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetRating(int id)
+        public IActionResult GetById(int id)
         {
-            AppLogger.LogResourceRequest(nameof(GetRating), GetUsernameForToken());
+            AppLogger.LogResourceRequest(nameof(GetById), GetUsernameForToken());
 
             try
             {
                 var rating = _ratingService.FindById(id);
 
                 if (rating == null)
-                    return BadRequest(AppConstants.ResourceNotFoundById + id);
+                    return BadRequest(AppConfig.ResourceNotFoundById + id);
 
                 return Ok(rating);
             }
             catch (Exception ex)
             {
-                return BadRequestExceptionHandler(ex, nameof(GetRating));
+                return BadRequestExceptionHandler(ex, nameof(GetById));
             }
         }
 
@@ -86,12 +93,19 @@ namespace Dot.Net.WebApi.Controllers
 
             try
             {
+                var result = _ratingService.ValidateResource(rating);
+
+                if (!result.IsValid)
+                {
+                    GetErrorsForModelState(result.ErrorMessages);
+                }
+
                 if (ModelState.IsValid)
                 {
                     var checkRating = _ratingService.FindById(id);
 
                     if (checkRating == null)
-                        return BadRequest(AppConstants.ResourceNotFoundById + id);
+                        return BadRequest(AppConfig.ResourceNotFoundById + id);
 
                     _ratingService.Update(id, rating);
 
@@ -119,7 +133,7 @@ namespace Dot.Net.WebApi.Controllers
                 var checkRating = _ratingService.FindById(id);
 
                 if (checkRating == null)
-                    return BadRequest(AppConstants.ResourceNotFoundById + id);
+                    return BadRequest(AppConfig.ResourceNotFoundById + id);
 
                 _ratingService.Delete(id);
                 

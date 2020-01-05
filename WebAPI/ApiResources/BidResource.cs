@@ -16,16 +16,11 @@ namespace WebApi.ApiResources
 
     public class EditBidResource
     {
-        [Required]
-        [StringLength(20)]
         public string Account { get; set; }
 
-        [Required]
-        [StringLength(20)]
         public string Type { get; set; }
 
-        [RegularExpression("([0-9]+)", ErrorMessage = "Must be a number 0-9")]
-        public double BidQuantity { get; set; }
+        public string BidQuantity { get; set; }
     }
 
 }

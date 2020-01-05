@@ -22,9 +22,9 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult Get()
         {
-            AppLogger.LogResourceRequest(nameof(GetAll), GetUsernameForToken());
+            AppLogger.LogResourceRequest(nameof(Get), GetUsernameForToken());
 
             try
             {
@@ -32,7 +32,7 @@ namespace Dot.Net.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequestExceptionHandler(ex, nameof(GetAll));
+                return BadRequestExceptionHandler(ex, nameof(Get));
             }
 
         }
@@ -60,22 +60,22 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetTrade(int id)
+        public IActionResult GetById(int id)
         {
-            AppLogger.LogResourceRequest(nameof(GetTrade), GetUsernameForToken());
+            AppLogger.LogResourceRequest(nameof(GetById), GetUsernameForToken());
 
             try
             {
                 var trade = _tradeService.FindById(id);
 
                 if (trade == null)
-                    return BadRequest(AppConstants.ResourceNotFoundById + id);
+                    return BadRequest(AppConfig.ResourceNotFoundById + id);
 
                 return Ok(trade);
             }
             catch (Exception ex)
             {
-                return BadRequestExceptionHandler(ex, nameof(GetTrade));
+                return BadRequestExceptionHandler(ex, nameof(GetById));
             }
         }
 
@@ -91,7 +91,7 @@ namespace Dot.Net.WebApi.Controllers
                     var checkTrade = _tradeService.FindById(id);
 
                     if (checkTrade == null)
-                        return BadRequest(AppConstants.ResourceNotFoundById + id);
+                        return BadRequest(AppConfig.ResourceNotFoundById + id);
 
                     _tradeService.Update(id, trade);
 
@@ -118,7 +118,7 @@ namespace Dot.Net.WebApi.Controllers
                 var trade = _tradeService.FindById(id);
 
                 if (trade == null)
-                    return BadRequest(AppConstants.ResourceNotFoundById + id);
+                    return BadRequest(AppConfig.ResourceNotFoundById + id);
 
                 _tradeService.Delete(id);
                 

@@ -62,23 +62,8 @@ namespace Dot.Net.WebApi
 
             // Contexts
             services.AddDbContext<LocalDbContext>(opts =>
-                opts.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=OCP7_PoseidonDb;Trusted_Connection=true; MultipleActiveResultSets=true"));
+                opts.UseSqlServer(AppConfig.ApiConnectionString));
 
-            //services.AddDbContext<IdentityContext>(opts =>
-            //    opts.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=OCP7_PoseidonDbIdentity;Trusted_Connection=true; MultipleActiveResultSets=true"));
-
-            //services.AddIdentity<IdentityUser, IdentityRole>(opts =>
-            //{
-            //    opts.Password.RequireDigit = true;
-            //    opts.Password.RequireLowercase = true;
-            //    opts.Password.RequireUppercase = true;
-            //    opts.Password.RequireNonAlphanumeric = false;
-            //    opts.Password.RequiredLength = 8;
-            //    opts.User.RequireUniqueEmail = true;
-            //    opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            //    opts.Lockout.MaxFailedAccessAttempts = 5;
-
-            //}).AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders();
             services.AddMvc();
             services.AddControllers();
             services.AddAuthorization();
@@ -94,14 +79,10 @@ namespace Dot.Net.WebApi
                 cfg.SaveToken = true;
                 cfg.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    // standard configuration
-                    //ValidIssuer = Configuration["Auth:Jwt:Issuer"],
-                    //ValidAudience = Configuration["Auth:Jwt:Audience"],
-                    ValidIssuer = "me",
-                    ValidAudience = "you",
-                    IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes("rlyaKithdrYVl6Z80ODU350md")),
-                    ClockSkew = TimeSpan.Zero,
+                    ValidIssuer = TokenConfig.ValidIssuer,
+                    ValidAudience = TokenConfig.ValidAudience,
+                    IssuerSigningKey = TokenConfig.GetKey(),
+                    ClockSkew = TokenConfig.SkewTime,
 
                     // security switches
                     RequireExpirationTime = true,

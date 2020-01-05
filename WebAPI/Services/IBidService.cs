@@ -1,4 +1,5 @@
 ﻿using WebApi.ApiResources;
+using WebApi.ModelValidators;
 
 namespace WebApi.Services
 {
@@ -9,6 +10,7 @@ namespace WebApi.Services
         BidResource FindById(int id);
         BidResource[] GetAll();
         void Update(int id, EditBidResource resource);
+        ValidationResult ValidateResource(EditBidResource resource);
 
     }
 }

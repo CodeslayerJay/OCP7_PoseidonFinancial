@@ -22,9 +22,9 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult Get()
         {
-            AppLogger.LogResourceRequest(nameof(GetAll), GetUsernameForToken());
+            AppLogger.LogResourceRequest(nameof(Get), GetUsernameForToken());
 
             try
             {
@@ -32,7 +32,7 @@ namespace Dot.Net.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequestExceptionHandler(ex, nameof(GetAll));
+                return BadRequestExceptionHandler(ex, nameof(Get));
             }
 
         }
@@ -60,22 +60,22 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetRule(int id)
+        public IActionResult GetById(int id)
         {
-            AppLogger.LogResourceRequest(nameof(GetRule), GetUsernameForToken());
+            AppLogger.LogResourceRequest(nameof(GetById), GetUsernameForToken());
 
             try
             {
                 var rulename = _ruleService.FindById(id);
 
                 if (rulename == null)
-                    return BadRequest(AppConstants.ResourceNotFoundById + id);
+                    return BadRequest(AppConfig.ResourceNotFoundById + id);
 
                 return Ok(rulename);
             }
             catch (Exception ex)
             {
-                return BadRequestExceptionHandler(ex, nameof(GetRule));
+                return BadRequestExceptionHandler(ex, nameof(GetById));
             }
         }
 
@@ -91,7 +91,7 @@ namespace Dot.Net.WebApi.Controllers
                     var rulename = _ruleService.FindById(id);
 
                     if (rulename == null)
-                        return BadRequest(AppConstants.ResourceNotFoundById + id);
+                        return BadRequest(AppConfig.ResourceNotFoundById + id);
 
                     _ruleService.Update(id, resource);
 
@@ -119,7 +119,7 @@ namespace Dot.Net.WebApi.Controllers
                 var checkRating = _ruleService.FindById(id);
 
                 if (checkRating == null)
-                    return BadRequest(AppConstants.ResourceNotFoundById + id);
+                    return BadRequest(AppConfig.ResourceNotFoundById + id);
 
                 _ruleService.Delete(id);
 

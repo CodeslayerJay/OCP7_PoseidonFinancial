@@ -23,9 +23,9 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult Get()
         {
-            AppLogger.LogResourceRequest(nameof(GetAll), GetUsernameForToken());
+            AppLogger.LogResourceRequest(nameof(Get), GetUsernameForToken());
 
             try
             {
@@ -33,7 +33,7 @@ namespace Dot.Net.WebApi.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequestExceptionHandler(ex, nameof(GetAll));
+                return BadRequestExceptionHandler(ex, nameof(Get));
             }
         }
 
@@ -45,6 +45,13 @@ namespace Dot.Net.WebApi.Controllers
 
             try
             {
+                var result = _bidService.ValidateResource(resource);
+
+                if (!result.IsValid)
+                {
+                    GetErrorsForModelState(result.ErrorMessages);
+                }
+
                 if (ModelState.IsValid)
                 {
                     var bid = _bidService.Add(resource);
@@ -61,22 +68,22 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetBid(int id)
+        public IActionResult GetById(int id)
         {
-            AppLogger.LogResourceRequest(nameof(GetBid), GetUsernameForToken());
+            AppLogger.LogResourceRequest(nameof(GetById), GetUsernameForToken());
 
             try
             {
                 var bid = _bidService.FindById(id);
                 if (bid == null)
-                    return BadRequest(AppConstants.ResourceNotFoundById + id);
+                    return BadRequest(AppConfig.ResourceNotFoundById + id);
 
                 return Ok(bid);
 
             }
             catch (Exception ex)
             {
-                return BadRequestExceptionHandler(ex, nameof(GetBid));
+                return BadRequestExceptionHandler(ex, nameof(GetById));
             }
         }
 
@@ -87,10 +94,17 @@ namespace Dot.Net.WebApi.Controllers
 
             try
             {
+                var result = _bidService.ValidateResource(resource);
+
+                if (!result.IsValid)
+                {
+                    GetErrorsForModelState(result.ErrorMessages);
+                }
+
                 if (ModelState.IsValid)
                 {
                     if (_bidService.FindById(id) == null)
-                        return NotFound(AppConstants.ResourceNotFoundById + id);
+                        return NotFound(AppConfig.ResourceNotFoundById + id);
                     
                     _bidService.Update(id, resource);
                     
@@ -115,7 +129,7 @@ namespace Dot.Net.WebApi.Controllers
             try
             {
                 if (_bidService.FindById(id) == null)
-                    return NotFound(AppConstants.ResourceNotFoundById + id);
+                    return NotFound(AppConfig.ResourceNotFoundById + id);
 
                 _bidService.Delete(id);
                 
