@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Dot.Net.WebApi.Domain;
 using System;
+using System.Linq;
 using WebApi.ApiResources;
 using WebApi.AppUtilities;
 using WebApi.Data;
+using WebApi.ModelValidators;
 using WebApi.Repositories;
 
 
@@ -22,6 +24,34 @@ namespace WebApi.Services
             _userRepo = userRepository;
             _tokenRepo = tokenRepository;
             _mapper = mapper;
+        }
+
+        public ValidationResult ValidateResource(EditUserResource resource)
+        {
+            var result = new ValidationResult();
+
+            if (resource != null)
+            {
+                var validator = new UserValidator();
+                var vr = validator.Validate(resource);
+
+                if (vr.IsValid)
+                {
+                    result.IsValid = true;
+                    return result;
+                }
+
+
+                if (vr.Errors.Any())
+                {
+                    foreach (var error in vr.Errors)
+                    {
+                        result.ErrorMessages.Add(error.PropertyName, error.ErrorMessage);
+                    }
+                }
+            }
+
+            return result;
         }
 
         public bool ValidateUser(string username, string password)

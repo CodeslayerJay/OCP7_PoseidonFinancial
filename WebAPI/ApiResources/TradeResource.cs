@@ -17,7 +17,7 @@ namespace WebApi.ApiResources
     {
         public string Account { get; set; }
         public string Type { get; set; }
-        public double BuyQuantity { get; set; }
+        public string BuyQuantity { get; set; }
     }
 
   

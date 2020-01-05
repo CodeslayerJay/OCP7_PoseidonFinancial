@@ -44,6 +44,13 @@ namespace Dot.Net.WebApi.Controllers
 
             try
             {
+                var result = _ruleService.ValidateResource(resource);
+
+                if (!result.IsValid)
+                {
+                    GetErrorsForModelState(result.ErrorMessages);
+                }
+
                 if (ModelState.IsValid)
                 {
                     _ruleService.Add(resource);
@@ -86,6 +93,13 @@ namespace Dot.Net.WebApi.Controllers
 
             try
             {
+                var result = _ruleService.ValidateResource(resource);
+
+                if (!result.IsValid)
+                {
+                    GetErrorsForModelState(result.ErrorMessages);
+                }
+
                 if (ModelState.IsValid)
                 {
                     var rulename = _ruleService.FindById(id);

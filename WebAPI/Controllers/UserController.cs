@@ -45,10 +45,17 @@ namespace Dot.Net.WebApi.Controllers
 
             try
             {
+                var result = _userService.ValidateResource(resource);
+
+                if (!result.IsValid)
+                {
+                    GetErrorsForModelState(result.ErrorMessages);
+                }
+
                 if (ModelState.IsValid)
                 {
-                    var result = _userService.CreateUser(resource);
-                    return CreatedAtAction(nameof(Create), result);
+                    var user = _userService.CreateUser(resource);
+                    return CreatedAtAction(nameof(Create), user);
                 }
 
                 return ValidationProblem();
@@ -87,6 +94,13 @@ namespace Dot.Net.WebApi.Controllers
 
             try
             {
+                var result = _userService.ValidateResource(resource);
+
+                if (!result.IsValid)
+                {
+                    GetErrorsForModelState(result.ErrorMessages);
+                }
+
                 if (ModelState.IsValid)
                 {
                     var user = _userService.GetUserById(id);

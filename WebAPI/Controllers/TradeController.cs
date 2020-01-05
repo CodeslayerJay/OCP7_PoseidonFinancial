@@ -44,6 +44,13 @@ namespace Dot.Net.WebApi.Controllers
 
             try
             {
+                var result = _tradeService.ValidateResource(trade);
+
+                if (!result.IsValid)
+                {
+                    GetErrorsForModelState(result.ErrorMessages);
+                }
+
                 if (ModelState.IsValid)
                 {
                     _tradeService.Add(trade);
@@ -86,6 +93,13 @@ namespace Dot.Net.WebApi.Controllers
 
             try
             {
+                var result = _tradeService.ValidateResource(trade);
+
+                if (!result.IsValid)
+                {
+                    GetErrorsForModelState(result.ErrorMessages);
+                }
+
                 if (ModelState.IsValid)
                 {
                     var checkTrade = _tradeService.FindById(id);

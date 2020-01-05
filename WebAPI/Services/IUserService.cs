@@ -1,6 +1,7 @@
 ﻿
 using WebApi.ApiResources;
 using WebApi.AppUtilities;
+using WebApi.ModelValidators;
 
 namespace WebApi.Services
 {
@@ -17,5 +18,6 @@ namespace WebApi.Services
         void StoreAccessToken(JsonWebToken token, int userId);
         UserResource GetUserForAccessToken(JsonWebToken token);
         UserResource GetUserForAccessToken(string token);
+        ValidationResult ValidateResource(EditUserResource resource);
     }
 }

@@ -14,16 +14,13 @@ namespace WebApi.ApiResources
     }
     public class EditUserResource
     {
-        [StringLength(20)]
+        
         public string FullName { get; set; }
-        [Required]
-        [StringLength(15)]
+        
         public string Password { get; set; }
-        [Required]
-        [Compare("Password")]
+        
         public string PasswordConfirm { get; set; }
-        [Required]
-        [StringLength(10)]
+        
         public string UserName { get; set; }
 
         public string Role { get; set; }
