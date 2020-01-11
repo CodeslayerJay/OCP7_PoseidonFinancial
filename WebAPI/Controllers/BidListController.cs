@@ -77,7 +77,7 @@ namespace Dot.Net.WebApi.Controllers
             {
                 var bid = _bidService.FindById(id);
                 if (bid == null)
-                    return BadRequest(AppConfig.ResourceNotFoundById + id);
+                    return NotFound(AppConfig.ResourceNotFoundById + id);
 
                 return Ok(bid);
 

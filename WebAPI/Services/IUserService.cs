@@ -18,6 +18,6 @@ namespace WebApi.Services
         void StoreAccessToken(JsonWebToken token, int userId);
         UserResource GetUserForAccessToken(JsonWebToken token);
         UserResource GetUserForAccessToken(string token);
-        ValidationResult ValidateResource(EditUserResource resource);
+        ValidationResult ValidateResource(EditUserResource resource, bool isUpdate);
     }
 }

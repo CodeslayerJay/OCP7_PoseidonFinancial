@@ -76,7 +76,7 @@ namespace Dot.Net.WebApi.Controllers
                 var rating = _ratingService.FindById(id);
 
                 if (rating == null)
-                    return BadRequest(AppConfig.ResourceNotFoundById + id);
+                    return NotFound(AppConfig.ResourceNotFoundById + id);
 
                 return Ok(rating);
             }
@@ -105,7 +105,7 @@ namespace Dot.Net.WebApi.Controllers
                     var checkRating = _ratingService.FindById(id);
 
                     if (checkRating == null)
-                        return BadRequest(AppConfig.ResourceNotFoundById + id);
+                        return NotFound(AppConfig.ResourceNotFoundById + id);
 
                     _ratingService.Update(id, rating);
 
@@ -133,7 +133,7 @@ namespace Dot.Net.WebApi.Controllers
                 var checkRating = _ratingService.FindById(id);
 
                 if (checkRating == null)
-                    return BadRequest(AppConfig.ResourceNotFoundById + id);
+                    return NotFound(AppConfig.ResourceNotFoundById + id);
 
                 _ratingService.Delete(id);
                 

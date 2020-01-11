@@ -29,6 +29,10 @@ namespace Dot.Net.WebApi.Controllers
             try
             {
                 var result = _userService.FindByUsername(username);
+
+                if (result == null)
+                    return NotFound();
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -41,11 +45,9 @@ namespace Dot.Net.WebApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody]EditUserResource resource)
         {
-            AppLogger.LogResourceRequest(nameof(Create), base.GetUsernameForRequest());
-
             try
             {
-                var result = _userService.ValidateResource(resource);
+                var result = _userService.ValidateResource(resource, isUpdate: false);
 
                 if (!result.IsValid)
                 {
@@ -66,8 +68,8 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        [Route("GetById")]
+        [HttpGet]
+        [Route("GetById/{id}")]
         public IActionResult GetUserById(int id)
         {
             AppLogger.LogResourceRequest(nameof(GetUserById), base.GetUsernameForRequest());
@@ -77,7 +79,7 @@ namespace Dot.Net.WebApi.Controllers
                 var user = _userService.GetUserById(id);
 
                 if (user == null)
-                    return BadRequest("User not found.");
+                    return NotFound(AppConfig.ResourceNotFoundById + id);
 
                 return Ok(user);
             }
@@ -94,7 +96,7 @@ namespace Dot.Net.WebApi.Controllers
 
             try
             {
-                var result = _userService.ValidateResource(resource);
+                var result = _userService.ValidateResource(resource, isUpdate: true);
 
                 if (!result.IsValid)
                 {
@@ -106,7 +108,7 @@ namespace Dot.Net.WebApi.Controllers
                     var user = _userService.GetUserById(id);
 
                     if (user == null)
-                        return BadRequest("User not found.");
+                        return NotFound(AppConfig.ResourceNotFoundById + id);
 
                     _userService.UpdateUser(id, resource);
 
@@ -133,7 +135,7 @@ namespace Dot.Net.WebApi.Controllers
                 var user = _userService.GetUserById(id);
 
                 if (user == null)
-                    return BadRequest("User not found.");
+                    return NotFound(AppConfig.ResourceNotFoundById + id);
 
                 _userService.DeleteUser(id);
 

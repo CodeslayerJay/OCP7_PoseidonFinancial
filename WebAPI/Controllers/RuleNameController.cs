@@ -76,7 +76,7 @@ namespace Dot.Net.WebApi.Controllers
                 var rulename = _ruleService.FindById(id);
 
                 if (rulename == null)
-                    return BadRequest(AppConfig.ResourceNotFoundById + id);
+                    return NotFound(AppConfig.ResourceNotFoundById + id);
 
                 return Ok(rulename);
             }
@@ -105,7 +105,7 @@ namespace Dot.Net.WebApi.Controllers
                     var rulename = _ruleService.FindById(id);
 
                     if (rulename == null)
-                        return BadRequest(AppConfig.ResourceNotFoundById + id);
+                        return NotFound(AppConfig.ResourceNotFoundById + id);
 
                     _ruleService.Update(id, resource);
 
@@ -133,7 +133,7 @@ namespace Dot.Net.WebApi.Controllers
                 var checkRating = _ruleService.FindById(id);
 
                 if (checkRating == null)
-                    return BadRequest(AppConfig.ResourceNotFoundById + id);
+                    return NotFound(AppConfig.ResourceNotFoundById + id);
 
                 _ruleService.Delete(id);
 

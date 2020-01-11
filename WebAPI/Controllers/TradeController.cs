@@ -76,7 +76,7 @@ namespace Dot.Net.WebApi.Controllers
                 var trade = _tradeService.FindById(id);
 
                 if (trade == null)
-                    return BadRequest(AppConfig.ResourceNotFoundById + id);
+                    return NotFound(AppConfig.ResourceNotFoundById + id);
 
                 return Ok(trade);
             }
@@ -105,7 +105,7 @@ namespace Dot.Net.WebApi.Controllers
                     var checkTrade = _tradeService.FindById(id);
 
                     if (checkTrade == null)
-                        return BadRequest(AppConfig.ResourceNotFoundById + id);
+                        return NotFound(AppConfig.ResourceNotFoundById + id);
 
                     _tradeService.Update(id, trade);
 
@@ -132,7 +132,7 @@ namespace Dot.Net.WebApi.Controllers
                 var trade = _tradeService.FindById(id);
 
                 if (trade == null)
-                    return BadRequest(AppConfig.ResourceNotFoundById + id);
+                    return NotFound(AppConfig.ResourceNotFoundById + id);
 
                 _tradeService.Delete(id);
                 

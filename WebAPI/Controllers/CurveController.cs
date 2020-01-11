@@ -79,7 +79,7 @@ namespace Dot.Net.WebApi.Controllers
                 var curve = _curveService.FindById(id);
 
                 if (curve == null)
-                    return BadRequest(AppConfig.ResourceNotFoundById + id);
+                    return NotFound(AppConfig.ResourceNotFoundById + id);
                 
                 return Ok(curve);
             }
@@ -108,7 +108,7 @@ namespace Dot.Net.WebApi.Controllers
                     var curve = _curveService.FindById(id);
 
                     if (curve == null)
-                        return BadRequest(AppConfig.ResourceNotFoundById + id);
+                        return NotFound(AppConfig.ResourceNotFoundById + id);
 
                     _curveService.Update(id, curvePoint);
 
@@ -136,7 +136,7 @@ namespace Dot.Net.WebApi.Controllers
                 var curve = _curveService.FindById(id);
 
                 if (curve == null)
-                    return BadRequest(AppConfig.ResourceNotFoundById + id);
+                    return NotFound(AppConfig.ResourceNotFoundById + id);
 
                 _curveService.Delete(id);
                 

@@ -27,13 +27,13 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        public ValidationResult ValidateResource(EditUserResource resource)
+        public ValidationResult ValidateResource(EditUserResource resource, bool isUpdate)
         {
             var result = new ValidationResult();
 
             if (resource != null)
             {
-                var validator = new UserValidator();
+                var validator = new UserValidator(isUpdate);
                 var vr = validator.Validate(resource);
 
                 if (vr.IsValid)
