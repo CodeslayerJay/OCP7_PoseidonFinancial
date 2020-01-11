@@ -9,19 +9,20 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using WebApi.ApiResources;
 
 namespace WebApi.AppUtilities
 {
     public static class AppSecurity
     {
 
-        public static JsonWebToken GenerateToken()
+        public static JsonWebToken GenerateToken(int userId)
         {
             //Add Claims
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.UniqueName, "data"),
-                new Claim(JwtRegisteredClaimNames.Sub, "data"),
+                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 
@@ -43,6 +44,16 @@ namespace WebApi.AppUtilities
             };
 
             return accessToken;
+        }
+
+        public static string GetClaimUsernameById(int userId)
+        {
+            using(var context = new LocalDbContext())
+            {
+                var user = context.Users.Where(x => x.Id == userId).SingleOrDefault();
+
+                return (user == null || String.IsNullOrEmpty(user.UserName)) ? "" : user.UserName;
+            }
         }
 
         public static HashResult HashPassword(string password, byte[] salt = null)
@@ -76,29 +87,6 @@ namespace WebApi.AppUtilities
         {
             var result = HashPassword(password);
             return result.HashedPassword == hashedPassword;
-        }
-
-        public static string GetUsernameForToken(string token)
-        {
-            if (String.IsNullOrEmpty(token))
-                throw new ArgumentNullException();
-
-            using(var context = new LocalDbContext())
-            {
-                var aToken = context.AccessTokens.Where(x => x.Token == token).FirstOrDefault();
-
-                if(aToken != null)
-                {
-                    var user = context.Users.Where(x => x.Id == aToken.UserId).FirstOrDefault();
-
-                    if(user != null)
-                    {
-                        return user.UserName;
-                    }
-                }
-            }
-
-            return null;
         }
 
         public class HashResult

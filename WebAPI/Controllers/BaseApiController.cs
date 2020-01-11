@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using WebApi.ApiResources;
 using WebApi.AppUtilities;
 using WebApi.Services;
 
@@ -23,35 +25,38 @@ namespace Dot.Net.WebApi.Controllers
             AppLogger = logger;
         }
 
+        // Gets the username for the requesting authorized claim/token
+        internal string GetUsernameForRequest()
+        {
+            try
+            {
+                var userClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (!String.IsNullOrEmpty(userClaim))
+                {
+                    // Make sure we have a valid id that can be parsed to an int
+                    if (Int32.TryParse(userClaim, out int id))
+                    {
+                        return AppSecurity.GetClaimUsernameById(id);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                AppLogger.LogError(nameof(GetUsernameForRequest),ex.Message);
+            }
+
+            // Something happened so just return empty string
+            return String.Empty;
+        }
+
+
         internal BadRequestObjectResult BadRequestExceptionHandler(Exception exception, string caller)
         {
             AppLogger.LogError(caller, exception.Message);
             return BadRequest(new { Errors = exception.Message });
         }
-
-        internal string GetRequestToken()
-        {
-            if (Request == null)
-                return null;
-
-            string token = Request.Headers["Authorization"];
-
-            if (token == null)
-                return null;
-
-            return token.Replace("Bearer ", "");
-        }
-
-        internal string GetUsernameForToken()
-        {
-            var token = GetRequestToken();
-
-            if (String.IsNullOrEmpty(token))
-                return null;
-
-            return AppSecurity.GetUsernameForToken(token);
-        }
-
+                     
         internal void GetErrorsForModelState(Dictionary<string, string> errors)
         {
             if (errors.Any())

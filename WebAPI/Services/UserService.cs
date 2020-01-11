@@ -2,6 +2,7 @@
 using Dot.Net.WebApi.Domain;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using WebApi.ApiResources;
 using WebApi.AppUtilities;
 using WebApi.Data;

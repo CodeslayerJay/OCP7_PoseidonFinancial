@@ -39,7 +39,7 @@ namespace Dotnet.Web.WebApi.Controllers
 
             AppLogger.LogResourceRequest(nameof(Validate), user.UserName);
 
-            var token = AppSecurity.GenerateToken();
+            var token = AppSecurity.GenerateToken(user.Id);
             _userService.StoreAccessToken(token, user.Id);
 
             return Ok(token);

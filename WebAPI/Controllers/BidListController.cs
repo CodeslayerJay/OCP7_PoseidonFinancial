@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Dot.Net.WebApi.Domain;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +26,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            AppLogger.LogResourceRequest(nameof(Get), GetUsernameForToken());
+            AppLogger.LogResourceRequest(nameof(Get), base.GetUsernameForRequest());
 
             try
             {
@@ -41,7 +42,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] EditBidResource resource)
         {
-            AppLogger.LogResourceRequest(nameof(Create), GetUsernameForToken());
+            AppLogger.LogResourceRequest(nameof(Create), base.GetUsernameForRequest());
 
             try
             {
@@ -70,7 +71,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            AppLogger.LogResourceRequest(nameof(GetById), GetUsernameForToken());
+            AppLogger.LogResourceRequest(nameof(GetById), base.GetUsernameForRequest());
 
             try
             {
@@ -90,7 +91,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] EditBidResource resource)
         {
-            AppLogger.LogResourceRequest(nameof(Update), GetUsernameForToken());
+            AppLogger.LogResourceRequest(nameof(Update), base.GetUsernameForRequest());
 
             try
             {
@@ -124,7 +125,7 @@ namespace Dot.Net.WebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            AppLogger.LogResourceRequest(nameof(Delete), GetUsernameForToken());
+            AppLogger.LogResourceRequest(nameof(Delete), base.GetUsernameForRequest());
 
             try
             {
