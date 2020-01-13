@@ -13,7 +13,7 @@ namespace WebApi.ModelValidators
         public UserValidator(bool isUpdate)
         {
             RuleFor(x => x.FullName).Cascade(CascadeMode.StopOnFirstFailure)
-                .MaximumLength(30);
+                .MaximumLength(40);
 
             RuleFor(x => x.Password).Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty()
@@ -28,17 +28,19 @@ namespace WebApi.ModelValidators
 
             RuleFor(x => x.UserName).Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty()
+                .Must(Username => IsValidUsername(Username))
+                    .WithMessage("Username must be at least 6-10 characters, with 3 being letters.")
                 .Must(Username => IsUsernameUnique(Username, isUpdate))
                     .WithMessage("Username is already taken.")
                 .MaximumLength(30);
 
             RuleFor(x => x.Role).Cascade(CascadeMode.StopOnFirstFailure)
-                .MaximumLength(30);
+                .MaximumLength(20);
 
 
         }
 
-        protected virtual bool IsUsernameUnique(string username, bool isUpdate)
+        private bool IsUsernameUnique(string username, bool isUpdate)
         {
             var valid = false;
 
@@ -59,7 +61,38 @@ namespace WebApi.ModelValidators
             return valid;
         }
 
-        protected virtual bool IsPasswordStrong(string password)
+        // Must be at least 6 chars, 30 max with at least 3 letters
+        private bool IsValidUsername(string username)
+        {
+            if (username.Length < 6)
+                return false;
+
+            
+            var letters = 0;
+            var digits = 0;
+            var symbols = 0;
+            var invalidChars = 0;
+            foreach (var ch in username)
+            {
+                if (char.IsWhiteSpace(ch))
+                    return false;
+
+                if (char.IsLetter(ch)) letters++;
+                if (char.IsDigit(ch)) digits++;
+                if (char.IsSymbol(ch)) symbols++;
+                if (char.IsPunctuation(ch)) symbols++;
+            }
+
+            if (invalidChars > 0) return false;
+            if (letters > 20 || letters < 3) return false;
+            if (digits > 7) return false;
+            if (symbols > 7) return false;
+
+            return true;
+        }
+
+
+        private bool IsPasswordStrong(string password)
         {
             if (password.Length < 6)
                 return false;
