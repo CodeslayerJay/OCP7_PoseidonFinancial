@@ -59,7 +59,7 @@ namespace PoseidonFinancial.Testing
                     // Seed our db with test data
                     try
                     {
-                        SeedData.Initialize(db);
+                        TestSeedData.Initialize(db);
                     }
                     catch (Exception ex)
                     {

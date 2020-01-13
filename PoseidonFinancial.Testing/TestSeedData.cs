@@ -8,22 +8,24 @@ using WebApi.AppUtilities;
 
 namespace PoseidonFinancial.Testing
 {
-    internal class SeedData
+    internal class TestSeedData
     {
+        public const string TestUsername = "unitTester";
+
         internal static void Initialize(LocalDbContext db)
         {
             if(db != null)
             {
                 var context = db;
 
-                var user = context.Users.Where(x => x.UserName == "unitTester").SingleOrDefault();
+                var user = context.Users.Where(x => x.UserName == TestUsername).SingleOrDefault();
 
                 if (user == null)
                 {
                     user = new User
                     {
                         FullName = "Unit Tester",
-                        UserName = "unitTester",
+                        UserName = TestUsername,
                         Password = AppSecurity.HashPassword("test1234!").HashedPassword,
                         Role = "Admin"
                     };

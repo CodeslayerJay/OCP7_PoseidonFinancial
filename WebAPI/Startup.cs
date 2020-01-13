@@ -22,6 +22,7 @@ using WebApi.Services;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using WebApi.Data;
 
 namespace Dot.Net.WebApi
 {
@@ -112,6 +113,8 @@ namespace Dot.Net.WebApi
             {
                 endpoints.MapControllers();
             });
+
+            SeedData.Initialize(app.ApplicationServices);
         }
     }
 }

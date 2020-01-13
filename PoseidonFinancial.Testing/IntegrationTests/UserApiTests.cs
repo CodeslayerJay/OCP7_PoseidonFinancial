@@ -39,7 +39,7 @@ namespace PoseidonFinancial.Testing.IntegrationTests
             {
         
                 case "getByUsername":
-                    response = _client.GetAsync(APIROUTE + "username/unitTester").Result;
+                    response = _client.GetAsync(APIROUTE + "username/" + TestSeedData.TestUsername).Result;
                     break;
                 case "getById":
                     response = _client.GetAsync(APIROUTE + "getbyid/1").Result;
@@ -65,7 +65,7 @@ namespace PoseidonFinancial.Testing.IntegrationTests
         public void GetByUsername_ReturnsOk_WithUserResource()
         {
             // Act
-            var username = "unitTester";
+            var username = TestSeedData.TestUsername;
 
             var response = _client.AuthorizeRequest().GetAsync(APIROUTE + "username/"+ username).Result;
             response.EnsureSuccessStatusCode();
@@ -107,7 +107,7 @@ namespace PoseidonFinancial.Testing.IntegrationTests
             var user = new EditUserResource
             {
                 FullName = "Testing Tests",
-                UserName = "unitTester",    // username should already be taken so fails here
+                UserName = TestSeedData.TestUsername,    // username should already be taken so fails here
                 Password = "1234", // password not strong enough fails here
                 PasswordConfirm = "12341zxzxc", // password doesn't match fails here
                 Role = "Tester"
@@ -126,7 +126,7 @@ namespace PoseidonFinancial.Testing.IntegrationTests
         {
             // Get a list of bids so we can grab the correct id that is stored in
             // the (in)memory db
-            var username = "unitTester";
+            var username = TestSeedData.TestUsername;
             var getResources = _client.AuthorizeRequest().GetAsync(APIROUTE + "username/"+ username).Result;
             getResources.EnsureSuccessStatusCode();
 
@@ -165,7 +165,7 @@ namespace PoseidonFinancial.Testing.IntegrationTests
         {
             // Get a list of bids so we can grab the correct id that is stored in
             // the (in)memory db
-            var username = "unitTester";
+            var username = TestSeedData.TestUsername;
             var getResources = _client.AuthorizeRequest().GetAsync(APIROUTE + "username/" + username).Result;
             getResources.EnsureSuccessStatusCode();
 
@@ -197,7 +197,7 @@ namespace PoseidonFinancial.Testing.IntegrationTests
         {
             // Get a list of bids so we can grab the correct id that is stored in
             // the (in)memory db
-            var username = "unitTester";
+            var username = TestSeedData.TestUsername;
             var getResources = _client.AuthorizeRequest().GetAsync(APIROUTE + "username/" +username).Result;
             getResources.EnsureSuccessStatusCode();
 

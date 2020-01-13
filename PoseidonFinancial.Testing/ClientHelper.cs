@@ -29,7 +29,7 @@ namespace PoseidonFinancial.Testing
         {
             using (var context = new LocalDbContext())
             {
-                var user = context.Users.Where(x => x.UserName == "test").FirstOrDefault();
+                var user = context.Users.Where(x => x.UserName == TestSeedData.TestUsername).FirstOrDefault();
 
                 if (user == null)
                     return "";
