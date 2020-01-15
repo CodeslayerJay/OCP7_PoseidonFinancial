@@ -21,6 +21,10 @@ namespace Dot.Net.WebApi.Controllers
             _ruleService = ruleService;
         }
 
+        /// <summary>
+        /// Get all rulenames
+        /// </summary>
+        /// <returns>json object of all rulenames</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -37,6 +41,11 @@ namespace Dot.Net.WebApi.Controllers
 
         }
 
+        /// <summary>
+        /// Create a new rulename
+        /// </summary>
+        /// <param name="resource"></param>
+        /// <returns>json object of newly created rulename containing identity key</returns>
         [HttpPost]
         public IActionResult Create([FromBody]EditRuleNameResource resource)
         {
@@ -66,6 +75,11 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Get rulename by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>json object of rulename</returns>
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -86,6 +100,12 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Update rulename by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="resource"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]EditRuleNameResource resource)
         {
@@ -122,7 +142,11 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Delete rulename by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

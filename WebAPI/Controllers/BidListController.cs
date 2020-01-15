@@ -23,6 +23,10 @@ namespace Dot.Net.WebApi.Controllers
             _bidService = bidService;
         }
 
+        /// <summary>
+        /// Get all bids
+        /// </summary>
+        /// <returns>json object containing all bids</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -38,7 +42,11 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
-                
+        /// <summary>
+        /// Create a new bid
+        /// </summary>
+        /// <param name="resource"></param>
+        /// <returns>json object of newly created bid containing identity key</returns>        
         [HttpPost]
         public IActionResult Create([FromBody] EditBidResource resource)
         {
@@ -68,6 +76,11 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Get a bid by id number
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>json object of bid</returns>
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -88,6 +101,12 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Update a bid by Id number
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="resource"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] EditBidResource resource)
         {
@@ -122,6 +141,11 @@ namespace Dot.Net.WebApi.Controllers
             
         }
 
+        /// <summary>
+        /// Delete a bid by an id number
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

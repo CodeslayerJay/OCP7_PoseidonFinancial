@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:Dot.Net.WebApi.Controllers.BidListController.Get">
+            <summary>
+            Get all bids
+            </summary>
+            <returns>json object containing all bids</returns>
+        </member>
+        <member name="M:Dot.Net.WebApi.Controllers.BidListController.Create(WebApi.ApiResources.EditBidResource)">
+            <summary>
+            Create a new bid
+            </summary>
+            <param name="resource"></param>
+            <returns>json object of newly created bid containing identity key</returns>        
+        </member>
+        <member name="M:Dot.Net.WebApi.Controllers.BidListController.GetById(System.Int32)">
+            <summary>
+            Get a bid by id number
+            </summary>
+            <param name="id"></param>
+            <returns>json object of bid</returns>
+        </member>
+        <member name="M:Dot.Net.WebApi.Controllers.BidListController.Update(System.Int32,WebApi.ApiResources.EditBidResource)">
+            <summary>
+            Update a bid by Id number
+            </summary>
+            <param name="id"></param>
+            <param name="resource"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dot.Net.WebApi.Controllers.BidListController.Delete(System.Int32)">
+            <summary>
+            Delete a bid by an id number
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

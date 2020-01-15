@@ -23,6 +23,10 @@ namespace Dot.Net.WebApi.Controllers
             _curveService = curveService;
         }
 
+        /// <summary>
+        /// Get all CurvePoints
+        /// </summary>
+        /// <returns>json object containing all curvepoints</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -39,6 +43,11 @@ namespace Dot.Net.WebApi.Controllers
             
         }
 
+        /// <summary>
+        /// Create a new CurvePoint
+        /// </summary>
+        /// <param name="curvePoint"></param>
+        /// <returns>json object of newly created curve with identity key</returns>
         [HttpPost]
         public IActionResult Create([FromBody]EditCurveResource curvePoint)
         {
@@ -69,6 +78,11 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Get CurvePoint by Id number
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>json object of curve point</returns>
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -89,6 +103,12 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Update a curve point by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="curvePoint"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]EditCurveResource curvePoint)
         {
@@ -125,7 +145,11 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Delete curve point by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

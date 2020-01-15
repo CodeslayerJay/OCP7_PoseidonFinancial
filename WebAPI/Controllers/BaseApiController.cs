@@ -50,6 +50,30 @@ namespace Dot.Net.WebApi.Controllers
             return String.Empty;
         }
 
+        internal int GetCurrentUserId()
+        {
+            try
+            {
+                var userClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (!String.IsNullOrEmpty(userClaim))
+                {
+                    // Make sure we have a valid id that can be parsed to an int
+                    if (Int32.TryParse(userClaim, out int id))
+                    {
+                        return id;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                AppLogger.LogError(nameof(GetCurrentUserId), ex.Message);
+            }
+
+            // Something happened...
+            return 0;
+        }
+
 
         internal BadRequestObjectResult BadRequestExceptionHandler(Exception exception, string caller)
         {

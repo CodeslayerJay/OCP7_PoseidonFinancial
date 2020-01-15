@@ -22,6 +22,11 @@ namespace Dot.Net.WebApi.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// Get a user by their username
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>json object of user</returns>
         [HttpGet("username/{username}")]
         public IActionResult GetUserByUsername(string username)
         {
@@ -41,6 +46,12 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
         
+
+        /// <summary>
+        /// Create a new user account
+        /// </summary>
+        /// <param name="resource"></param>
+        /// <returns>json object of newly created user account</returns>
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Create([FromBody]EditUserResource resource)
@@ -68,6 +79,12 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Get a user by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>json object of user</returns>
         [HttpGet]
         [Route("GetById/{id}")]
         public IActionResult GetUserById(int id)
@@ -89,6 +106,13 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Get a user by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="resource"></param>
+        /// <returns>json object of user</returns>
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]EditUserResource resource)
         {
@@ -96,6 +120,7 @@ namespace Dot.Net.WebApi.Controllers
 
             try
             {
+
                 var result = _userService.ValidateResource(resource, isUpdate: true);
 
                 if (!result.IsValid)
@@ -125,6 +150,11 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete user by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -136,6 +166,10 @@ namespace Dot.Net.WebApi.Controllers
 
                 if (user == null)
                     return NotFound(AppConfig.ResourceNotFoundById + id);
+
+                // Make sure the current user can only delete themselves
+                if (user.Id != base.GetCurrentUserId())
+                    return Unauthorized();
 
                 _userService.DeleteUser(id);
 

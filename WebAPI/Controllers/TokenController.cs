@@ -22,6 +22,12 @@ namespace Dotnet.Web.WebApi.Controllers
             _userService = userService;
         }
 
+
+        /// <summary>
+        /// Get a Bearer Access Token
+        /// </summary>
+        /// <param name="resource"></param>
+        /// <returns>json web token containing token for bearer authentication</returns>
         [AllowAnonymous]
         [HttpPost]
         [Route("Validate")]

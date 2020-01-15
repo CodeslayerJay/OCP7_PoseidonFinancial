@@ -18,7 +18,7 @@ namespace WebApi.ModelValidators
             RuleFor(x => x.Password).Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty()
                 .Must(Password => IsPasswordStrong(Password))
-                    .WithMessage("Password must contain letters, one number and symbol.")
+                    .WithMessage("Password must contain letters, one number, a symbol and no spaces.")
                 .MaximumLength(30);
 
             RuleFor(x => x.PasswordConfirm).Cascade(CascadeMode.StopOnFirstFailure)
@@ -29,7 +29,7 @@ namespace WebApi.ModelValidators
             RuleFor(x => x.UserName).Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty()
                 .Must(Username => IsValidUsername(Username))
-                    .WithMessage("Username must be at least 6-10 characters, with 3 being letters.")
+                    .WithMessage("Username must be at least 6-10 characters, with 3 being letters and no spaces.")
                 .Must(Username => IsUsernameUnique(Username, isUpdate))
                     .WithMessage("Username is already taken.")
                 .MaximumLength(30);

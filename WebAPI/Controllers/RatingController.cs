@@ -21,6 +21,10 @@ namespace Dot.Net.WebApi.Controllers
             _ratingService = ratingService;
         }
 
+        /// <summary>
+        /// Get all Ratings
+        /// </summary>
+        /// <returns>json object containing all ratings</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -37,6 +41,11 @@ namespace Dot.Net.WebApi.Controllers
 
         }
 
+        /// <summary>
+        /// Create a new rating
+        /// </summary>
+        /// <param name="rating"></param>
+        /// <returns>json object of newly created rating with identity key</returns>
         [HttpPost]
         public IActionResult Create([FromBody]EditRatingResource rating)
         {
@@ -66,6 +75,11 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Get rating by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>json object of rating</returns>
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -86,6 +100,12 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Update rating by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="rating"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]EditRatingResource rating)
         {
@@ -122,7 +142,11 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Delete rating by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

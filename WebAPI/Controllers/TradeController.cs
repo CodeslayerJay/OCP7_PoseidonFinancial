@@ -21,6 +21,10 @@ namespace Dot.Net.WebApi.Controllers
             _tradeService = tradeService;
         }
 
+        /// <summary>
+        /// Get all trades
+        /// </summary>
+        /// <returns>json object of all trades</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -37,6 +41,11 @@ namespace Dot.Net.WebApi.Controllers
 
         }
 
+        /// <summary>
+        /// Create a new trade
+        /// </summary>
+        /// <param name="trade"></param>
+        /// <returns>json object of newly created trade containing identity key</returns>
         [HttpPost]
         public IActionResult Create([FromBody]EditTradeResource trade)
         {
@@ -66,6 +75,12 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Get trade by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>json object of trade</returns>
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -86,6 +101,13 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Update trade by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="trade"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]EditTradeResource trade)
         {
@@ -121,7 +143,11 @@ namespace Dot.Net.WebApi.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Delete trade by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
