@@ -66,7 +66,7 @@ namespace Dot.Net.WebApi
 
             // Contexts
             services.AddDbContext<LocalDbContext>(opts =>
-                opts.UseSqlServer(AppConfig.ApiConnectionString));
+                opts.UseSqlServer(Configuration.GetConnectionString("Referential")));
 
             services.AddMvc();
             services.AddControllers();
