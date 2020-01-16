@@ -168,8 +168,8 @@ namespace Dot.Net.WebApi.Controllers
                     return NotFound(AppConfig.ResourceNotFoundById + id);
 
                 // Make sure the current user can only delete themselves
-                if (user.Id != base.GetCurrentUserId())
-                    return Unauthorized();
+                //if (user.Id != base.GetCurrentUserId())
+                //    return Unauthorized();
 
                 _userService.DeleteUser(id);
 
