@@ -66,7 +66,7 @@ namespace Dot.Net.WebApi
 
             // Contexts
             services.AddDbContext<LocalDbContext>(opts =>
-                opts.UseSqlServer(Configuration.GetConnectionString("Referential")));
+                opts.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database = OCP7_PoseidonDb; Trusted_Connection = true; MultipleActiveResultSets = true"));
 
             services.AddMvc();
             services.AddControllers();
