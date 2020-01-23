@@ -14,10 +14,9 @@ namespace PoseidonFinancial.Testing
     {
         
         // Retrieves and stores an access token for authorization requests
-        public static HttpClient AuthorizeRequest(this HttpClient httpClient)
+        public static HttpClient AuthorizeRequest(this HttpClient httpClient, string username = null)
         {
-
-            var token = GetAccessToken();
+            var token = GetAccessToken(username);
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             //httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");
 
@@ -25,12 +24,15 @@ namespace PoseidonFinancial.Testing
         }
         
         // Gets an access token for requests
-        public static string GetAccessToken()
+        public static string GetAccessToken(string username = null)
         {
             using (var context = new LocalDbContext())
             {
-                var user = context.Users.Where(x => x.UserName == TestSeedData.TestUsername).FirstOrDefault();
+                if (String.IsNullOrEmpty(username))
+                    username = "unitTester";
 
+                var user = context.Users.Where(x => x.UserName == username).FirstOrDefault();
+                
                 if (user == null)
                     return "";
 

@@ -13,14 +13,14 @@ using Xunit;
 
 namespace PoseidonFinancial.Testing.IntegrationTests
 {
-    public class TokenApiTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class TokenApiTests : IClassFixture<CustomWebApplicationFactory>
     {
-        private readonly CustomWebApplicationFactory<Startup> _factory;
+        private readonly CustomWebApplicationFactory _factory;
         private readonly HttpClient _client;
 
         private const string APIROUTE = "api/token/";
 
-        public TokenApiTests(CustomWebApplicationFactory<Startup> factory)
+        public TokenApiTests(CustomWebApplicationFactory factory)
         {
             _factory = factory;
             _client = _factory.CreateClient();

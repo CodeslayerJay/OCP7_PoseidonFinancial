@@ -12,14 +12,14 @@ using Xunit;
 
 namespace PoseidonFinancial.Testing.IntegrationTests
 {
-    public class RatingApiTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class RatingApiTests : IClassFixture<CustomWebApplicationFactory>
     {
-        private readonly CustomWebApplicationFactory<Startup> _factory;
+        private readonly CustomWebApplicationFactory _factory;
         private readonly HttpClient _client;
 
         private const string APIROUTE = "api/rating/";
 
-        public RatingApiTests(CustomWebApplicationFactory<Startup> factory)
+        public RatingApiTests(CustomWebApplicationFactory factory)
         {
             _factory = factory;
             _client = _factory.CreateClient();

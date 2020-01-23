@@ -141,6 +141,9 @@ namespace WebApi.Services
 
             if(userToUpdate != null && resource != null)
             {
+                // Hash any passwords
+                resource.Password = AppSecurity.HashPassword(resource.Password).HashedPassword;
+
                 _userRepo.Update(id, _mapper.Map(resource, userToUpdate));
                 _userRepo.SaveChanges();
             }

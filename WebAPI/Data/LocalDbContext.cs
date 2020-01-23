@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Dot.Net.WebApi.Domain;
 using WebApi.Data;
+using Dot.Net.WebApi;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Dot.Net.WebApi.Data
 {
@@ -12,8 +15,7 @@ namespace Dot.Net.WebApi.Data
         public LocalDbContext(DbContextOptions<LocalDbContext> options) :base(options)
         { }
 
-        private readonly string _connString = "Server=(localdb)\\MSSQLLocalDB;Database=OCP7_PoseidonDb;Trusted_Connection=true; MultipleActiveResultSets=true";
-
+        
         public LocalDbContext()
         { }
 
@@ -21,12 +23,15 @@ namespace Dot.Net.WebApi.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
+                var connString = Startup.IsTesting ?
+                    Startup.StaticConfig.GetConnectionString("UAT") :
+                    Startup.StaticConfig.GetConnectionString("Referential");
 
-                optionsBuilder.UseSqlServer(_connString);
+                optionsBuilder.UseSqlServer(connString);
+                
             }
         }
-
-
+        
         public DbSet<CurvePoint> CurvePoints { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<RuleName> RuleNames { get; set; }
@@ -37,7 +42,7 @@ namespace Dot.Net.WebApi.Data
         public DbSet<AppLog> Logs { get; set; }
 
         public DbSet<AccessToken> AccessTokens { get; set; }
-
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<AccessToken>().ToTable("AccessTokens").HasKey(x => x.Id);

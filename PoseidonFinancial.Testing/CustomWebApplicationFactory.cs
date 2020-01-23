@@ -1,30 +1,38 @@
-﻿using Dot.Net.WebApi.Data;
+﻿using Dot.Net.WebApi;
+using Dot.Net.WebApi.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WebApi.Data;
 
 namespace PoseidonFinancial.Testing
 {
-    public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
+    public class CustomWebApplicationFactory : WebApplicationFactory<Startup>
     {
+        public static IServiceProvider ServiceProvider { get; private set; }
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services =>
             {
                 // Create a new service provider.
                 var serviceProvider = new ServiceCollection()
-                    .AddEntityFrameworkInMemoryDatabase()
+                    .AddEntityFrameworkSqlServer()
+                    //.AddEntityFrameworkInMemoryDatabase()
                     .BuildServiceProvider();
 
+                // Set to testing
+                Startup.IsTesting = true;
 
-                // Remove the default db context registration
+                //Remove the default db context registration
                 var defaultContext = services.SingleOrDefault(
                     d => d.ServiceType == typeof(DbContextOptions<LocalDbContext>));
 
@@ -32,34 +40,32 @@ namespace PoseidonFinancial.Testing
                 {
                     services.Remove(defaultContext);
                 }
-
+                
                 // Add a new database context using an in-memory database for testing.
                 services.AddDbContext<LocalDbContext>(options =>
                 {
-                    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                    //options.UseInMemoryDatabase("InMemoryDbForTesting");
+                    options.UseSqlServer(Startup.StaticConfig.GetConnectionString("UAT"));
                     options.UseInternalServiceProvider(serviceProvider);
                 });
 
                 // Build the service provider.
-                var sp = services.BuildServiceProvider();
+                ServiceProvider = services.BuildServiceProvider();
 
                 // Create a scope to obtain a reference to the database
                 // context (LocalDbContext).
-                using (var scope = sp.CreateScope())
+                using (var scope = ServiceProvider.CreateScope())
                 {
                     var scopedServices = scope.ServiceProvider;
                     var db = scopedServices.GetRequiredService<LocalDbContext>();
                     var logger = scopedServices
-                        .GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
-                    
-                    // Ensure the database is created.
-                    db.Database.EnsureCreated();
+                        .GetRequiredService<ILogger<CustomWebApplicationFactory>>();
 
-                    
+                                        
                     // Seed our db with test data
                     try
                     {
-                        TestSeedData.Initialize(db);
+                        TestSeedData.Initialize(scopedServices);
                     }
                     catch (Exception ex)
                     {

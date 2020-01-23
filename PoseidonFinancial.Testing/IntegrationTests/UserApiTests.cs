@@ -1,4 +1,5 @@
 ﻿using Dot.Net.WebApi;
+using Dot.Net.WebApi.Data;
 using Dot.Net.WebApi.Domain;
 using Newtonsoft.Json;
 using System;
@@ -12,14 +13,14 @@ using Xunit;
 
 namespace PoseidonFinancial.Testing.IntegrationTests
 {
-    public class UserApiTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class UserApiTests : IClassFixture<CustomWebApplicationFactory>
     {
-        private readonly CustomWebApplicationFactory<Startup> _factory;
+        private readonly CustomWebApplicationFactory _factory;
         private readonly HttpClient _client;
 
         private const string APIROUTE = "api/user/";
 
-        public UserApiTests(CustomWebApplicationFactory<Startup> factory)
+        public UserApiTests(CustomWebApplicationFactory factory)
         {
             _factory = factory;
             _client = _factory.CreateClient();
@@ -80,11 +81,11 @@ namespace PoseidonFinancial.Testing.IntegrationTests
         [Fact]
         public void Post_WhenUnAuthorized_ReturnsOk_WithNewUserResource()
         {
-
+            // Has to be a unique username
             var user = new EditUserResource
             {
                 FullName = "Testing Tests",
-                UserName = "chesterTester",
+                UserName = "tempUsername",
                 Password = "a1234!",
                 PasswordConfirm = "a1234!",
                 Role = "Tester"
@@ -98,6 +99,7 @@ namespace PoseidonFinancial.Testing.IntegrationTests
 
             Assert.NotNull(result);
             Assert.IsType<UserResource>(result);
+
         }
 
         [Fact]
@@ -175,10 +177,11 @@ namespace PoseidonFinancial.Testing.IntegrationTests
             // Verify we have something to look up
             Assert.NotNull(resource);
 
-
+            // Let's just change the name since other tests rely on having this
+            // username & password
             var user = new EditUserResource
             {
-                FullName = "Testing Tests",
+                FullName = "Test Name Change",
                 UserName = "unitTester",
                 Password = "test1234!",
                 PasswordConfirm = "test1234!",
@@ -253,7 +256,7 @@ namespace PoseidonFinancial.Testing.IntegrationTests
             // the (in)memory db
             var username = "dummy";
 
-            var getResources = _client.AuthorizeRequest().GetAsync(APIROUTE + "username/"+ username).Result;
+            var getResources = _client.AuthorizeRequest(username).GetAsync(APIROUTE + "username/"+ username).Result;
             getResources.EnsureSuccessStatusCode();
 
             var resourceRaw = getResources.Content.ReadAsStringAsync().Result;
@@ -263,21 +266,12 @@ namespace PoseidonFinancial.Testing.IntegrationTests
             Assert.NotNull(resource);
 
             // Act
-            var response = _client.AuthorizeRequest().DeleteAsync(APIROUTE + resource.Id).Result;
+            var response = _client.AuthorizeRequest(username).DeleteAsync(APIROUTE + resource.Id).Result;
 
             // Assert Ok
             response.EnsureSuccessStatusCode();
         }
 
-        [Fact]
-        public void Delete_WhenBidIsNull_ReturnsNotFound()
-        {
-            // Arrange + Act
-            var response = _client.AuthorizeRequest().DeleteAsync(APIROUTE + 99999).Result;
-
-            // Assert
-            Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
-        }
 
     }
 }

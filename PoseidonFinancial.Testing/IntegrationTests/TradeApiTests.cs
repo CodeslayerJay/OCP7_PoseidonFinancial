@@ -12,14 +12,14 @@ using Xunit;
 
 namespace PoseidonFinancial.Testing.IntegrationTests
 {
-    public class TradeApiTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class TradeApiTests : IClassFixture<CustomWebApplicationFactory>
     {
-        private readonly CustomWebApplicationFactory<Startup> _factory;
+        private readonly CustomWebApplicationFactory _factory;
         private readonly HttpClient _client;
 
         private const string APIROUTE = "api/trade/";
 
-        public TradeApiTests(CustomWebApplicationFactory<Startup> factory)
+        public TradeApiTests(CustomWebApplicationFactory factory)
         {
             _factory = factory;
             _client = _factory.CreateClient();

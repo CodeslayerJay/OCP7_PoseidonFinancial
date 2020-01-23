@@ -34,9 +34,13 @@ namespace Dot.Net.WebApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            StaticConfig = configuration;
         }
 
         public IConfiguration Configuration { get; }
+        public static IConfiguration StaticConfig { get; private set; }
+
+        public static bool IsTesting { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -66,7 +70,7 @@ namespace Dot.Net.WebApi
 
             // Contexts
             services.AddDbContext<LocalDbContext>(opts =>
-                opts.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database = OCP7_PoseidonDb; Trusted_Connection = true; MultipleActiveResultSets = true"));
+                opts.UseSqlServer(Configuration.GetConnectionString("Referential")));
 
             services.AddMvc();
             services.AddControllers();
@@ -178,7 +182,6 @@ namespace Dot.Net.WebApi
                 endpoints.MapControllers();
             });
 
-            SeedData.Initialize(app.ApplicationServices);
         }
     }
 }

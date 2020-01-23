@@ -108,7 +108,8 @@ namespace Dot.Net.WebApi.Controllers
 
 
         /// <summary>
-        /// Get a user by id
+        /// Update a user by user id. Returns UnAuthorized if the requesting user is not the owner 
+        /// of the user account to update
         /// </summary>
         /// <param name="id"></param>
         /// <param name="resource"></param>
@@ -135,6 +136,10 @@ namespace Dot.Net.WebApi.Controllers
                     if (user == null)
                         return NotFound(AppConfig.ResourceNotFoundById + id);
 
+                    // Only allow a user to update their own account
+                    if (user.Id != base.GetCurrentUserId())
+                        return Unauthorized();
+
                     _userService.UpdateUser(id, resource);
 
                     return Ok();
@@ -151,7 +156,8 @@ namespace Dot.Net.WebApi.Controllers
         }
 
         /// <summary>
-        /// Delete user by id
+        /// Delete user by id. Returns UnAuthorized if the requesting user is not the 
+        /// owner of the user account to delete.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -168,8 +174,8 @@ namespace Dot.Net.WebApi.Controllers
                     return NotFound(AppConfig.ResourceNotFoundById + id);
 
                 // Make sure the current user can only delete themselves
-                //if (user.Id != base.GetCurrentUserId())
-                //    return Unauthorized();
+                if (user.Id != base.GetCurrentUserId())
+                    return Unauthorized();
 
                 _userService.DeleteUser(id);
 

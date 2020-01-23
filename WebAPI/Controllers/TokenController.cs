@@ -40,7 +40,7 @@ namespace Dotnet.Web.WebApi.Controllers
             if (user == null)
                 return Unauthorized();
 
-            if (!resource.RefreshToken && !_userService.ValidateUser(user.UserName, resource.Password))
+            if (!_userService.ValidateUser(user.UserName, resource.Password))
                 return Unauthorized();
 
             AppLogger.LogResourceRequest(nameof(Validate), user.UserName);

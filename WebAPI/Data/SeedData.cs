@@ -10,16 +10,17 @@ using WebApi.AppUtilities;
 
 namespace WebApi.Data
 {
-    internal class SeedData
+    public class SeedData
     {
-        internal static void Initialize(IServiceProvider services)
+        public static void Initialize(IServiceProvider serviceProvider)
         {
+            var services = serviceProvider;
+            
             try
             {
-                if (services == null)
-                    throw new ArgumentNullException();
+                var dbOptions = services.GetRequiredService<DbContextOptions<LocalDbContext>>();
 
-                using (var context = new LocalDbContext())
+                using (var context = new LocalDbContext(dbOptions))
                 {
                     context.Database.Migrate();
 
@@ -166,10 +167,11 @@ namespace WebApi.Data
 
                     context.SaveChanges();
                 }
+                
             }
             catch(Exception ex)
             {
-                var logger = services.GetRequiredService<ILogger<Startup>>();
+                var logger = services.GetRequiredService<ILogger<SeedData>>();
                 logger.LogError(ex, "An error occurred seeding the DB.");
             }
         }
