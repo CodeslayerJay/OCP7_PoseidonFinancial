@@ -22,7 +22,33 @@ namespace WebApi.Data
 
                 using (var context = new LocalDbContext(dbOptions))
                 {
-                    context.Database.Migrate();
+                    context.Database.EnsureCreated();
+
+                    // Let's remove this record if we currently have it so we can test creating the user
+                    // as unique
+                    var tempUser = context.Users.Where(x => x.UserName == "tempUsername").SingleOrDefault();
+
+                    if (tempUser != null)
+                    {
+                        context.Users.Remove(tempUser);
+                    }
+
+
+                    // Add additional dummy user for when testing user deletions
+                    var dummyUser = context.Users.Where(x => x.UserName == "dummy").SingleOrDefault();
+
+                    if (dummyUser == null)
+                    {
+                        var dummy = new User
+                        {
+                            FullName = "Dummy User",
+                            UserName = "dummy",
+                            Password = AppSecurity.HashPassword("test1234!").HashedPassword,
+                            Role = "Tester"
+                        };
+
+                        context.Users.Add(dummy);
+                    }
 
                     var user = context.Users.Where(x => x.UserName == "unitTester").SingleOrDefault();
 
@@ -38,6 +64,23 @@ namespace WebApi.Data
 
                         context.Users.Add(user);
                     }
+
+                    var admin = context.Users.Where(x => x.UserName == "admin").SingleOrDefault();
+
+                    if (admin == null)
+                    {
+                        user = new User
+                        {
+                            FullName = "App Admin",
+                            UserName = "admin",
+                            Password = AppSecurity.HashPassword("test1234!").HashedPassword,
+                            Role = "Admin"
+                        };
+
+                        context.Users.Add(user);
+                    }
+
+
 
                     if (!context.BidList.Any())
                     {

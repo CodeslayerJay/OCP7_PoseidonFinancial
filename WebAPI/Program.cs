@@ -21,12 +21,11 @@ namespace Dot.Net.WebApi
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-
-                //var dbContext = services.GetService<LocalDbContext>();
-                
+                                
                 SeedData.Initialize(services);
             }
-                
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -17,63 +17,64 @@ namespace PoseidonFinancial.Testing
 {
     public class CustomWebApplicationFactory : WebApplicationFactory<Startup>
     {
-        public static IServiceProvider ServiceProvider { get; private set; }
+        
 
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
-        {
-            builder.ConfigureServices(services =>
-            {
-                // Create a new service provider.
-                var serviceProvider = new ServiceCollection()
-                    .AddEntityFrameworkSqlServer()
-                    //.AddEntityFrameworkInMemoryDatabase()
-                    .BuildServiceProvider();
+        //protected override void ConfigureWebHost(IWebHostBuilder builder)
+        //{
+        //    builder.ConfigureServices(services =>
+        //    {
+        //        // Create a new service provider.
+        //        var serviceProvider = new ServiceCollection()
+        //            .AddEntityFrameworkSqlServer()
+        //            //.AddEntityFrameworkInMemoryDatabase()
+        //            .BuildServiceProvider();
 
-                // Set to testing
-                Startup.IsTesting = true;
+        //        // Set to testing
+        //        //Startup.IsTesting = true;
 
-                //Remove the default db context registration
-                var defaultContext = services.SingleOrDefault(
-                    d => d.ServiceType == typeof(DbContextOptions<LocalDbContext>));
+        //        //Remove the default db context registration
+        //        var defaultContext = services.SingleOrDefault(
+        //            d => d.ServiceType == typeof(DbContextOptions<LocalDbContext>));
 
-                if (defaultContext != null)
-                {
-                    services.Remove(defaultContext);
-                }
+        //        if (defaultContext != null)
+        //        {
+        //            services.Remove(defaultContext);
+        //        }
                 
-                // Add a new database context using an in-memory database for testing.
-                services.AddDbContext<LocalDbContext>(options =>
-                {
-                    //options.UseInMemoryDatabase("InMemoryDbForTesting");
-                    options.UseSqlServer(Startup.StaticConfig.GetConnectionString("UAT"));
-                    options.UseInternalServiceProvider(serviceProvider);
-                });
+        //        // Add a new database context using an in-memory database for testing.
+        //        services.AddDbContext<LocalDbContext>(options =>
+        //        {
+        //            //options.UseInMemoryDatabase("InMemoryDbForTesting");
+        //            options.UseSqlServer(Startup.StaticConfig.GetConnectionString("UAT"));
+        //            options.UseInternalServiceProvider(serviceProvider);
+        //        });
 
-                // Build the service provider.
-                ServiceProvider = services.BuildServiceProvider();
+        //        // Build the service provider.
+        //        //var sp = services.BuildServiceProvider();
 
-                // Create a scope to obtain a reference to the database
-                // context (LocalDbContext).
-                using (var scope = ServiceProvider.CreateScope())
-                {
-                    var scopedServices = scope.ServiceProvider;
-                    var db = scopedServices.GetRequiredService<LocalDbContext>();
-                    var logger = scopedServices
-                        .GetRequiredService<ILogger<CustomWebApplicationFactory>>();
+        //        //// Create a scope to obtain a reference to the database
+        //        //// context (LocalDbContext).
+        //        //using (var scope = sp.CreateScope())
+        //        //{
+        //        //    var scopedServices = scope.ServiceProvider;
+        //        //    var db = scopedServices.GetRequiredService<LocalDbContext>();
+        //        //    var logger = scopedServices
+        //        //        .GetRequiredService<ILogger<CustomWebApplicationFactory>>();
 
+        //        //    db.Database.EnsureCreated();
                                         
-                    // Seed our db with test data
-                    try
-                    {
-                        TestSeedData.Initialize(scopedServices);
-                    }
-                    catch (Exception ex)
-                    {
+        //        //    // Seed our db with test data
+        //        //    try
+        //        //    {
+        //        //        TestSeedData.Initialize(db);
+        //        //    }
+        //        //    catch (Exception ex)
+        //        //    {
 
-                        logger.LogError(ex, "An error occurred seeding the DB.");
-                    }
-                }
-            });
-        }
+        //        //        logger.LogError(ex, "An error occurred seeding the DB.");
+        //        //    }
+        //        //}
+        //    });
+        //}
     }
 }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using WebApi.ApiResources;
+using WebApi.AppUtilities;
 using WebApi.Services;
 using Xunit;
 
@@ -100,6 +101,9 @@ namespace PoseidonFinancial.Testing.IntegrationTests
             Assert.NotNull(result);
             Assert.IsType<UserResource>(result);
 
+
+            // Do cleanup
+            CleanUp();
         }
 
         [Fact]
@@ -255,7 +259,7 @@ namespace PoseidonFinancial.Testing.IntegrationTests
             // Get a list of bids so we can grab the correct id that is stored in
             // the (in)memory db
             var username = "dummy";
-
+           
             var getResources = _client.AuthorizeRequest(username).GetAsync(APIROUTE + "username/"+ username).Result;
             getResources.EnsureSuccessStatusCode();
 
@@ -270,8 +274,49 @@ namespace PoseidonFinancial.Testing.IntegrationTests
 
             // Assert Ok
             response.EnsureSuccessStatusCode();
+
+            CleanUp();
         }
 
+
+        // Clean up the db here
+        private void CleanUp()
+        {
+            try
+            {
+
+                using (var context = new LocalDbContext())
+                {
+                    var tempUser = context.Users.Where(x => x.UserName == "tempUsername").FirstOrDefault();
+                    var dummyUser = context.Users.Where(x => x.UserName == "dummy").FirstOrDefault();
+
+                    if (tempUser != null)
+                    {
+                        context.Users.Remove(tempUser);
+                        
+                    }
+
+                    if(dummyUser == null)
+                    {
+                        var dummy = new User
+                        {
+                            FullName = "Dummy User",
+                            UserName = "dummy",
+                            Password = AppSecurity.HashPassword("test1234!").HashedPassword,
+                            Role = "Tester"
+                        };
+
+                        context.Users.Add(dummy);
+                    }
+
+                    context.SaveChanges();
+                }
+                
+            }
+            catch (Exception ex) { }
+
+            
+        }
 
     }
 }
