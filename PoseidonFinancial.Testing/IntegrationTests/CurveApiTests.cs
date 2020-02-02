@@ -12,7 +12,8 @@ using Xunit;
 
 namespace PoseidonFinancial.Testing.IntegrationTests
 {
-    public class CurveApiTest : IClassFixture<CustomWebApplicationFactory>
+    [Collection("CustomWebAppFactory")]
+    public class CurveApiTest //: IClassFixture<CustomWebApplicationFactory>
     {
         private readonly CustomWebApplicationFactory _factory;
         private readonly HttpClient _client;

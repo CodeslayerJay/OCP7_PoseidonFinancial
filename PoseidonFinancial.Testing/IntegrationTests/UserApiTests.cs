@@ -14,7 +14,8 @@ using Xunit;
 
 namespace PoseidonFinancial.Testing.IntegrationTests
 {
-    public class UserApiTests : IClassFixture<CustomWebApplicationFactory>
+    [Collection("CustomWebAppFactory")]
+    public class UserApiTests //: IClassFixture<CustomWebApplicationFactory>
     {
         private readonly CustomWebApplicationFactory _factory;
         private readonly HttpClient _client;
